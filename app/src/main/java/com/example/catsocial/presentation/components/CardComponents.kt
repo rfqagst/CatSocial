@@ -2,6 +2,7 @@ package com.example.catsocial.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.catsocial.R
 import com.example.catsocial.presentation.navigation.Screen
-import com.example.catsocial.ui.theme.GreyPrimary
+import com.example.catsocial.ui.theme.OrangePrimary
 import com.example.catsocial.ui.theme.YellowBanner
 
 @Composable
@@ -94,18 +95,47 @@ fun AdoptionCard(
                 .fillMaxWidth()
         )
         Column(modifier = Modifier.padding(top = 8.dp)) {
-            Text(text = name, fontWeight = FontWeight.SemiBold)
-            Text(text = ras, fontWeight = FontWeight.Medium)
+            Text(text = name, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(text = ras, fontWeight = FontWeight.Medium, fontSize = 16.sp)
+            Row(modifier = Modifier.padding(top = 6.dp)) {
+                FilterCard(modifier = Modifier, text = "Jantan")
+                FilterCard(modifier = Modifier, text = "1 Tahun")
+            }
         }
     }
+}
 
+
+@Composable
+fun FilterCard(modifier: Modifier, text: String) {
+    Box(
+        modifier = Modifier.padding(end = 6.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(OrangePrimary),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            modifier = Modifier.padding(5.dp),
+            text = text,
+            style = TextStyle(
+                color = Color.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        )
+
+    }
 }
 
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
 fun Preview() {
-    Row(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
         AdoptionCard(
             image = R.drawable.kucing1,
             name = "Albert siwibu",
