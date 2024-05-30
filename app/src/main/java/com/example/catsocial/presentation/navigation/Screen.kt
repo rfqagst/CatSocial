@@ -2,4 +2,19 @@ package com.example.catsocial.presentation.navigation
 
 sealed class Screen(val route : String) {
 
+    data object AdoptionConfirmation : Screen("adoptionConfirmationScreen")
+    data object AdoptionDetail : Screen("adoptionDetailScreen")
+    data object Adoption : Screen("adoptionScreen")
+
+
+    data object Login : Screen("loginScreen")
+    data object Register : Screen("registerScreen")
+
+
+    data object CatList : Screen("catlistScreen")
+    data object CatListDetail : Screen("catlistDetailScreen")
+
+
+    data object Reminder : Screen("reminderScreen")
+
 }

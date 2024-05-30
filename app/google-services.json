@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "766323517",
+    "project_id": "catsocial-f7dc6",
+    "storage_bucket": "catsocial-f7dc6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766323517:android:65cd0a152b9ed06987b354",
+        "android_client_info": {
+          "package_name": "com.example.catsocial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLqugDXD7H3fZDnfsSKLwYHDZrqITUomY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
