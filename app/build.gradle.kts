@@ -57,9 +57,15 @@ android {
 
 dependencies {
 
+    // font
+    implementation(libs.androidx.ui.text.google.fonts)
 
+    //icon
+    implementation(libs.androidx.material.icons.extended)
+
+    //navigation
     implementation(libs.androidx.navigation.compose)
-
+    
     //firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
