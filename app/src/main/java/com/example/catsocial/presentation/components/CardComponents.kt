@@ -23,12 +23,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.rememberAsyncImagePainter
 import com.example.catsocial.R
 import com.example.catsocial.presentation.navigation.Screen
+import com.example.catsocial.ui.theme.BlackPrimary
 import com.example.catsocial.ui.theme.OrangePrimary
 import com.example.catsocial.ui.theme.YellowBanner
 
@@ -156,6 +159,71 @@ fun Preview() {
     }
 
 
+}
+
+@Composable
+fun CatInformationCard(modifier: Modifier, name: String, description: String, image: String) {
+    Row(
+        modifier = modifier
+            .padding(bottom = 8.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(Color.White)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(8.dp)
+                .width(60.dp)
+                .height(60.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(YellowBanner)
+        ) {
+
+
+            Image(
+                modifier = Modifier
+                    .fillMaxSize(),
+                painter = rememberAsyncImagePainter(model = image),
+                contentScale = ContentScale.Crop,
+                contentDescription = null
+            )
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Column {
+            Text(
+                text = name,
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    lineHeight = 16.sp,
+                    fontWeight = FontWeight(600),
+                    color = BlackPrimary,
+                )
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                text = description,
+                color = BlackPrimary,
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    lineHeight = 16.sp,
+                    fontWeight = FontWeight(400),
+                )
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+            }
+        }
+
+    }
 }
 
 

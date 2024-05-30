@@ -19,9 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CatSocialTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    CatSocialApp()
-                }
+                CatSocialApp()
             }
         }
     }

@@ -13,5 +13,5 @@ val Pink40 = Color(0xFF7D5260)
 
 val OrangePrimary = Color(0xFFFF7B54)
 val YellowBanner = Color(0xFFFEF2CE)
-val BlackPrimary = Color(0xFF141916)
+val BlackPrimary = Color(0xFF111211)
 val GreyPrimary = Color(0xFFF9F9F9)
