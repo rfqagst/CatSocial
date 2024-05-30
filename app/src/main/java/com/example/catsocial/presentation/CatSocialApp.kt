@@ -1,4 +1,56 @@
 package com.example.catsocial.presentation
 
-class CatSocialApp {
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.catsocial.presentation.components.BottomBarComponentAdoption
+import com.example.catsocial.presentation.components.TopBarComponentAdoption
+import com.example.catsocial.presentation.navigation.NavGraph
+import com.example.catsocial.presentation.navigation.Screen
+import com.example.catsocial.presentation.navigation.bottomNavItem
+
+@Composable
+fun CatSocialApp() {
+
+    val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination?.route
+
+    Scaffold(
+        topBar = {
+            when (currentDestination) {
+                Screen.Adoption.route -> TopBarComponentAdoption(
+                    name = "Rizal Hitam Manis",
+                    navController = navController
+                )
+            }
+        },
+        bottomBar = {
+            when (currentDestination) {
+                Screen.Adoption.route -> BottomBarComponentAdoption(
+                    navController = navController,
+                    items = bottomNavItem
+                )
+
+                Screen.CatList.route -> BottomBarComponentAdoption(
+                    navController = navController,
+                    items = bottomNavItem
+                )
+
+                Screen.Reminder.route -> BottomBarComponentAdoption(
+                    navController = navController,
+                    items = bottomNavItem
+                )
+            }
+        }
+    ) { paddingValues ->
+        NavGraph(navController = navController, modifier = Modifier.padding(paddingValues))
+
+    }
+
+
 }

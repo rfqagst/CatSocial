@@ -16,16 +16,16 @@ var bottomNavItem = listOf(
     BottomNavItem(
         title = "Adopsi",
         icon = Icons.Default.Pets,
-        route = "home"
+        route = "adoptionScreen"
     ),
     BottomNavItem(
-        title = "Informasi",
+        title = "Explore",
         icon = Icons.Default.Search,
-        route = "informasi"
+        route = "catlistScreen"
     ),
     BottomNavItem(
         title = "Reminder",
         icon = Icons.Default.Timer,
-        route = "reminder"
+        route = "reminderScreen"
     )
 )
