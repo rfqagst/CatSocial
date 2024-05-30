@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.catsocial.presentation.screen.adoption.AddAdoptionScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionConfirmationScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionDetailScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionScreen
@@ -20,7 +21,11 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
     NavHost(navController, startDestination = Screen.Adoption.route) {
 
         composable(Screen.Adoption.route) {
-            AdoptionScreen(modifier)
+            AdoptionScreen(modifier, navController)
+        }
+
+        composable(Screen.AdoptionAdd.route) {
+            AddAdoptionScreen(modifier)
         }
 
         composable(Screen.AdoptionDetail.route) {
