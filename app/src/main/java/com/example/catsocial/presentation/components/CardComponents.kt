@@ -132,36 +132,6 @@ fun FilterCard(modifier: Modifier, text: String) {
 
 
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
-fun Preview() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        AdoptionCard(
-            image = R.drawable.kucing1,
-            name = "Albert siwibu",
-            ras = "Anggora",
-            gender = "Laki-laki",
-            usia = "2 bulan",
-            modifier = Modifier
-        )
-        Spacer(modifier = Modifier.width(10.dp))
-        AdoptionCard(
-            image = R.drawable.kucing1,
-            name = "Albert siwibu",
-            ras = "Anggora",
-            gender = "Laki-laki",
-            usia = "2 bulan",
-            modifier = Modifier
-        )
-    }
-
-
-}
-
-@Composable
 fun CatInformationCard(modifier: Modifier, name: String, description: String, image: String) {
     Row(
         modifier = modifier
@@ -225,5 +195,37 @@ fun CatInformationCard(modifier: Modifier, name: String, description: String, im
 
     }
 }
+
+
+@Composable
+@Preview(showBackground = true, showSystemUi = true)
+fun Preview() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        AdoptionCard(
+            image = R.drawable.kucing1,
+            name = "Albert siwibu",
+            ras = "Anggora",
+            gender = "Laki-laki",
+            usia = "2 bulan",
+            modifier = Modifier
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        AdoptionCard(
+            image = R.drawable.kucing1,
+            name = "Albert siwibu",
+            ras = "Anggora",
+            gender = "Laki-laki",
+            usia = "2 bulan",
+            modifier = Modifier
+        )
+    }
+
+
+}
+
 
 

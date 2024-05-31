@@ -14,7 +14,9 @@ import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.presentation.navigation.bottomNavItem
 
 @Composable
-fun CatSocialApp() {
+fun CatSocialApp(
+
+) {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()

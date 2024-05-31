@@ -58,7 +58,7 @@ android {
 dependencies {
 
     //coil
-    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation(libs.coil.compose)
 
 
     // font
@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.navigation.runtime.ktx)
     kapt(libs.hilt.android.compiler)
+    implementation (libs.androidx.hilt.navigation.compose)
 
     //room
     implementation(libs.androidx.room.runtime)

@@ -2,6 +2,7 @@ package com.example.catsocial.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +14,7 @@ import com.example.catsocial.presentation.screen.auth.login.LoginScreen
 import com.example.catsocial.presentation.screen.auth.register.RegisterScreen
 import com.example.catsocial.presentation.screen.catlist.CatListDetailScreen
 import com.example.catsocial.presentation.screen.catlist.CatListScreen
+import com.example.catsocial.presentation.screen.catlist.CatListViewModel
 import com.example.catsocial.presentation.screen.reminder.ReminderScreen
 
 @Composable
@@ -50,7 +52,8 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
 
         composable(Screen.CatList.route) {
-            CatListScreen(modifier)
+            val catListViewModel: CatListViewModel = hiltViewModel()
+            CatListScreen(modifier, catListViewModel)
         }
 
         composable(Screen.CatListDetail.route) {
