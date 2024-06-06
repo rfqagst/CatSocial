@@ -17,7 +17,7 @@ import javax.inject.Singleton
 object NetworkingModule {
 
     private const val BASE_URL = "https://api.thecatapi.com/v1/"
-    private const val API_KEY = "live_qWlRRixFOqXxQLMUKcc6R4js8r5WAjtgl6r7sNMZhO35KWNJSY6YCypdd3Fs2gtO"
+    private const val API_KEY = "live_mvBTe5N92Zdgnbat67XN5cK3kAs8VxrzarK0ynlw64rbReq5MyFbE10hXwI4FhXV"
 
 
     @Provides

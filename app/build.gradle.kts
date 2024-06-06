@@ -88,6 +88,8 @@ dependencies {
 
     // coroutine
     implementation(libs.kotlinx.coroutines.android)
+    implementation (libs.kotlinx.coroutines.core)
+
 
     //retrofit
     implementation(libs.retrofit)

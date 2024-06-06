@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.catsocial.data.room.entity.Cat
 import com.example.catsocial.presentation.components.AdoptionCard
 import com.example.catsocial.presentation.components.BannerCard
 import com.example.catsocial.presentation.components.SearchBarKucing

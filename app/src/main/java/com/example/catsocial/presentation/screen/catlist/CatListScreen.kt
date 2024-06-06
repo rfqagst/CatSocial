@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.catsocial.data.retrofit.response.CatResponse
 import com.example.catsocial.presentation.components.CatInformationCard
 import com.example.catsocial.presentation.components.SearchBarKucing
 import com.example.catsocial.ui.theme.OrangePrimary
@@ -33,14 +31,20 @@ fun CatListScreen(
     var searchText by remember { mutableStateOf("") }
 
     val catListState by viewModel.cats.collectAsState()
+    val catImage by viewModel.imageCats.collectAsState()
 
-    Column(modifier = modifier.padding(16.dp)) {
+    val searchResult by viewModel.searchCats.collectAsState()
+
+    Column(modifier = modifier.padding( horizontal = 16.dp)) {
 
         SearchBarKucing(value = searchText, onValueChange = {
             searchText = it
+            viewModel.searchCat(searchText)
         }, modifier = Modifier.padding(bottom = 24.dp))
 
-        when (catListState) {
+        val dataToShow = if (searchText.isEmpty()) catListState else searchResult
+
+        when (dataToShow) {
             is Resource.Error -> {
                 Text(text = (catListState as Resource.Error).message ?: "An error occurred")
             }
@@ -61,17 +65,21 @@ fun CatListScreen(
             }
 
             is Resource.Success -> {
-                val cats = (catListState as Resource.Success<List<CatResponse>>).data
-                LazyColumn(modifier = modifier) {
-                    items(cats ?: emptyList()) { cat ->
-                        CatInformationCard(
-                            modifier = Modifier,
-                            name = cat.breeds?.firstOrNull()?.name ?: "Unknown Breed",
-                            description = cat.breeds?.firstOrNull()?.description
-                                ?: "No description available",
-                            image = cat.url ?: ""
-                        )
+                val catsList = dataToShow.data
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    catsList?.let { catItems ->
+                        items(catItems.size) { index ->
+                            val currentCat = catItems[index]
+                            CatInformationCard(
+                                modifier = Modifier,
+                                name = currentCat.name ?: "",
+                                description = currentCat.description ?: "",
+                                image = currentCat.imageUrl ?: "",
+                            )
+                        }
                     }
+
+
                 }
             }
 

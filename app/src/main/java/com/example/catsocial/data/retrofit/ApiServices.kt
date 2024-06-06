@@ -1,20 +1,27 @@
 package com.example.catsocial.data.retrofit
 
-import com.example.catsocial.data.retrofit.response.CatResponse
+import com.example.catsocial.data.retrofit.response.ResponseCatItem
+import com.example.catsocial.data.retrofit.response.ResponseImage
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiServices {
 
-
-    @GET("images/search")
+    @GET("breeds")
     suspend fun fetchCats(
-        @Query("size") size: String = "med",
-        @Query("has_breeds") hasBreeds: Boolean = true,
+        @Query("limit") limit: Int = 10,
         @Query("page") page: Int = 0,
-        @Query("limit") limit: Int = 5,
-        @Query("include_breeds") includeBreeds: Boolean = true,
-    ): List<CatResponse>
+    ): List<ResponseCatItem>
 
+    @GET("images/{id}")
+    suspend fun fetchImages(
+        @Path("id") id: String,
+    ): ResponseImage
 
+    @GET("breeds/search")
+    suspend fun searchCatByRace(
+        @Query("q") race: String,
+        @Query("attach_image") attachImage: Int = 1
+    ): List<ResponseCatItem>
 }
