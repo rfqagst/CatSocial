@@ -1,5 +1,6 @@
 package com.example.catsocial.data.retrofit.response
 
+import com.example.catsocial.data.retrofit.model.CatWithImage
 import com.google.gson.annotations.SerializedName
 
 data class ResponseCat(
@@ -38,3 +39,18 @@ data class ResponseCatItem(
 	val referenceImageId: String? = null,
 
 )
+
+fun ResponseCatItem.toCatWithImage(imageUrl: String? = null): CatWithImage {
+	return CatWithImage(
+		id = this.id ?: "",
+		name = this.name,
+		origin = this.origin,
+		description = this.description,
+		countryCodes = this.countryCodes,
+		altNames = this.altNames,
+		countryCode = this.countryCode,
+		temperament = this.temperament,
+		referenceImageId = this.referenceImageId,
+		imageUrl = imageUrl
+	)
+}

@@ -14,6 +14,12 @@ interface ApiServices {
         @Query("page") page: Int = 0,
     ): List<ResponseCatItem>
 
+    @GET("breeds/{id}")
+    suspend fun fetchCatById(
+        @Path("id") id: String,
+    ): ResponseCatItem
+
+
     @GET("images/{id}")
     suspend fun fetchImages(
         @Path("id") id: String,

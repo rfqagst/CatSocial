@@ -1,6 +1,7 @@
 package com.example.catsocial.presentation.screen.adoption
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.navigation.NavHostController
 import com.example.catsocial.presentation.components.AdoptionCard
 import com.example.catsocial.presentation.components.BannerCard
 import com.example.catsocial.presentation.components.SearchBarKucing
+import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.util.Resource
 import com.example.catsocial.util.byteArrayToImageBitmap
 
@@ -101,6 +103,7 @@ fun AdoptionScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxSize()
+
                     ) {
                         items(adopts.size) { index ->
                             val adoptions = adopts[index]
@@ -108,12 +111,16 @@ fun AdoptionScreen(
                             val adoptionImage = byteArrayToImageBitmap(adoptions.image)
 
                             AdoptionCard(
+                                modifier = Modifier.clickable {
+                                    navController.navigate(Screen.AdoptionDetail.route + "/${adoptions.id}")
+                                    Log.d("AdoptionScreen", "Success: ${adoptions.id}")
+                                },
                                 image = adoptionImage!!,
                                 name = adoptions.name,
                                 gender = adoptions.gender,
                                 usia = adoptions.age,
                                 ras = adoptions.race,
-                                modifier = Modifier
+
                             )
                         }
                     }

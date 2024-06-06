@@ -82,7 +82,7 @@ fun AdoptionCard(
     modifier: Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .clip(RoundedCornerShape(10.dp))
             .background(Color.White)
             .padding(10.dp)

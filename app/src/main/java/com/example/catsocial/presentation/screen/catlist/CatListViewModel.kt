@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.catsocial.data.retrofit.model.CatWithImage
 import com.example.catsocial.data.retrofit.repository.CatRepository
-import com.example.catsocial.data.retrofit.response.ResponseCatItem
 import com.example.catsocial.data.retrofit.response.ResponseImage
 import com.example.catsocial.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +22,9 @@ class CatListViewModel @Inject constructor(
 
     private val _searchCats = MutableStateFlow<Resource<List<CatWithImage>>>(Resource.Loading())
     val searchCats: StateFlow<Resource<List<CatWithImage>>> = _searchCats
+
+    private val _catDetail = MutableStateFlow<Resource<CatWithImage>>(Resource.Loading())
+    val catDetail: StateFlow<Resource<CatWithImage>> = _catDetail
 
 
     private val _imageCats = MutableStateFlow<Resource<ResponseImage>>(Resource.Loading())
@@ -48,10 +50,10 @@ class CatListViewModel @Inject constructor(
         }
     }
 
-    fun fetchImage(imageId: String) {
+    fun fetchCatById(catId: String) {
         viewModelScope.launch {
-            repository.fetchImageById(imageId).collect{
-                _imageCats.value = it
+            repository.fetchCatById(catId).collect {
+                _catDetail.value = it
             }
         }
     }

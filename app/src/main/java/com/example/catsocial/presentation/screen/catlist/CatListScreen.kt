@@ -1,5 +1,6 @@
 package com.example.catsocial.presentation.screen.catlist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,21 +18,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.catsocial.presentation.components.CatInformationCard
 import com.example.catsocial.presentation.components.SearchBarKucing
+import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.ui.theme.OrangePrimary
 import com.example.catsocial.util.Resource
 
 @Composable
 fun CatListScreen(
     modifier: Modifier,
-    viewModel: CatListViewModel
+    viewModel: CatListViewModel,
+    navController: NavHostController
 ) {
 
     var searchText by remember { mutableStateOf("") }
 
     val catListState by viewModel.cats.collectAsState()
-    val catImage by viewModel.imageCats.collectAsState()
 
     val searchResult by viewModel.searchCats.collectAsState()
 
@@ -71,7 +74,9 @@ fun CatListScreen(
                         items(catItems.size) { index ->
                             val currentCat = catItems[index]
                             CatInformationCard(
-                                modifier = Modifier,
+                                modifier = Modifier.clickable {
+                                    navController.navigate(Screen.CatListDetail.route + "/${currentCat.id}")
+                                },
                                 name = currentCat.name ?: "",
                                 description = currentCat.description ?: "",
                                 image = currentCat.imageUrl ?: "",

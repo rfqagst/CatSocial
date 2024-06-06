@@ -42,12 +42,14 @@ class AdoptionRepository @Inject constructor(
         }
     }
 
-    suspend fun getAdoptionById(id: Int): Resource<Cat> {
-        return try {
-            val adoption = catDao.getAdoption(id)
-            Resource.Success(adoption)
+    suspend fun getAdoptionById(id: Int): Flow<Resource<Cat>> = flow {
+        emit(Resource.Loading())
+        try {
+            catDao.getAdoptionById(id).collect { adoption ->
+                emit(Resource.Success(adoption))
+            }
         } catch (e: Exception) {
-            Resource.Error(e.localizedMessage ?: "An unexpected error occurred")
+            emit(Resource.Error(e.message.toString()))
         }
     }
 }

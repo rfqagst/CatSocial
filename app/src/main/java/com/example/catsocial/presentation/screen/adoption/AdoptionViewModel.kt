@@ -22,8 +22,8 @@ class AdoptionViewModel @Inject constructor(
     private val _searchAdoption = MutableStateFlow<Resource<List<Cat>>>(Resource.Loading())
     val searchAdoption: StateFlow<Resource<List<Cat>>> = _searchAdoption
 
-    private val _adoptionById = MutableStateFlow<Resource<Cat>>(Resource.Loading())
-    val adoptionById: StateFlow<Resource<Cat>> = _adoptionById
+    private val _adoptionDetail = MutableStateFlow<Resource<Cat>>(Resource.Loading())
+    val adoptionDetail: StateFlow<Resource<Cat>> = _adoptionDetail
 
     private val _insertAdoptionState = MutableStateFlow<Resource<Unit>>(Resource.Idle())
     val insertAdoptionState: StateFlow<Resource<Unit>> = _insertAdoptionState
@@ -71,9 +71,10 @@ class AdoptionViewModel @Inject constructor(
 
     fun getCatById(id: Int) {
         viewModelScope.launch {
-            _adoptionById.value = Resource.Loading()
-            val adoption = repository.getAdoptionById(id)
-            _adoptionById.value = adoption
+            repository.getAdoptionById(id).collect { resource ->
+                _adoptionDetail.value = resource
+            }
+
         }
     }
 

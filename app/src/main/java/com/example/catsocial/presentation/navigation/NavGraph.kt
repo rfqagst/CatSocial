@@ -1,5 +1,6 @@
 package com.example.catsocial.presentation.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,8 +34,11 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             AddAdoptionScreen(modifier, adoptionViewModel)
         }
 
-        composable(Screen.AdoptionDetail.route) {
-            AdoptionDetailScreen(modifier)
+        composable(Screen.AdoptionDetail.route + "/{adoptionId}") {
+            val adoptionViewModel: AdoptionViewModel = hiltViewModel()
+            val adoptionId = it.arguments?.getString("adoptionId") ?: ""
+            Log.d("adoptionIdNavGraph", adoptionId)
+            AdoptionDetailScreen(modifier, adoptionViewModel, adoptionId)
         }
 
         composable(Screen.AdoptionConfirmation.route) {
@@ -56,11 +60,15 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
         composable(Screen.CatList.route) {
             val catListViewModel: CatListViewModel = hiltViewModel()
-            CatListScreen(modifier, catListViewModel)
+
+            CatListScreen(modifier, catListViewModel, navController)
         }
 
-        composable(Screen.CatListDetail.route) {
-            CatListDetailScreen(modifier)
+        composable(Screen.CatListDetail.route + "/{catId}") {
+            val catId = it.arguments?.getString("catId") ?: ""
+            val catListViewModel: CatListViewModel = hiltViewModel()
+
+            CatListDetailScreen(modifier, catId, catListViewModel)
         }
 
 
