@@ -1,16 +1,17 @@
 package com.example.catsocial.data.room.entity
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "cats")
 data class Cat(
-    @PrimaryKey
-    val id : Int,
-    val image : Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val image : ByteArray,
     val name: String,
-    val age: Int,
-    val weight : Int,
+    val age: String,
+    val weight : String,
     val gender : String,
     val description : String,
 )

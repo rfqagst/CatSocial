@@ -2,6 +2,8 @@ package com.example.catsocial.data.room.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.catsocial.data.room.entity.Cat
@@ -11,7 +13,7 @@ import retrofit2.http.GET
 @Dao
 interface CatDao {
 
-    @Upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAdoption(cat: Cat)
 
     @Delete

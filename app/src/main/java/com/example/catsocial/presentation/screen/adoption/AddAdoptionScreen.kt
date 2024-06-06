@@ -18,7 +18,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,10 +31,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.catsocial.R
+import com.example.catsocial.data.room.entity.Cat
 import com.example.catsocial.presentation.components.DescriptionTextField
 import com.example.catsocial.presentation.components.DropdownField
 import com.example.catsocial.presentation.components.DropdownFieldWithTitle
@@ -39,16 +45,17 @@ import com.example.catsocial.presentation.components.LargeBtn
 import com.example.catsocial.presentation.components.NormalTextField
 import com.example.catsocial.presentation.components.SmallBtn
 import com.example.catsocial.ui.theme.GreyPrimary
+import com.example.catsocial.util.Resource
+import com.example.catsocial.util.uriToByteArray
 
 @Composable
-fun AddAdoptionScreen(modifier: Modifier) {
+fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
 
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
     var namaAnabul by remember { mutableStateOf("") }
     var umurAnabul by remember { mutableStateOf("") }
     var beratAnabul by remember { mutableStateOf("") }
-    var kelaminAnabul by remember { mutableStateOf("") }
     var deskripsiAnabul by remember { mutableStateOf("") }
 
 
@@ -62,10 +69,15 @@ fun AddAdoptionScreen(modifier: Modifier) {
     var expandedKelamin by remember { mutableStateOf(false) }
 
 
+    val insertState by viewModel.insertAdoptionState.collectAsState()
+
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             selectedImageUri = uri
         }
+
+    val context = LocalContext.current
+
 
     Column(
         modifier
@@ -182,12 +194,61 @@ fun AddAdoptionScreen(modifier: Modifier) {
         Spacer(modifier = Modifier.height(38.dp))
 
         LargeBtn(
-            text = "Tambah Koleksi",
+            text = "Adopsikan",
             onClick = {
+                selectedImageUri?.let { uri ->
+                    val imageData = uriToByteArray(context, uri)
+                    imageData?.let {
+                        val cat = Cat(
+                            name = namaAnabul,
+                            age = umurAnabul,
+                            weight = beratAnabul,
+                            gender = selectedValueKelamin,
+                            description = deskripsiAnabul,
+                            image = it
+                        )
+                        viewModel.insertAdoption(cat)
+                    }
+
+
+                }
+
+
             },
             modifier = Modifier
         )
-        Spacer(modifier = Modifier.height(38.dp))
+        Spacer(modifier = Modifier.height(28.dp))
 
+
+        when (insertState) {
+            is Resource.Error -> {
+                Text(
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(vertical = 32.dp),
+                    color = Color.Red,
+                    text = "Gagal Menambahkan Koleksi Tanaman"
+                )
+            }
+            is Resource.Loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .size(48.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
+            is Resource.Success -> {
+                Text(
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(vertical = 32.dp),
+                    color = Color.Green,
+                    text = "Berhasil Menambahkan Koleksi Tanaman"
+                )
+            }
+
+            is Resource.Idle -> {
+                // Tidak melakukan apa-apa
+            }
+        }
     }
 }

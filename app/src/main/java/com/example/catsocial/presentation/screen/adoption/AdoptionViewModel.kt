@@ -22,6 +22,9 @@ class AdoptionViewModel @Inject constructor(
     private val _adoption = MutableStateFlow<Resource<Cat>>(Resource.Loading())
     val adoption: StateFlow<Resource<Cat>> = _adoption
 
+    private val _insertAdoptionState = MutableStateFlow<Resource<Unit>>(Resource.Idle())
+    val insertAdoptionState: StateFlow<Resource<Unit>> = _insertAdoptionState
+
     init {
         fetchAllAdoptions()
     }
@@ -37,7 +40,14 @@ class AdoptionViewModel @Inject constructor(
 
     fun insertAdoption(cat: Cat) {
         viewModelScope.launch {
-            repository.insertAdoption(cat)
+            _insertAdoptionState.value = Resource.Loading()
+            try {
+                repository.insertAdoption(cat)
+                _insertAdoptionState.value = Resource.Success(Unit)
+            } catch (e: Exception) {
+                _insertAdoptionState.value =
+                    Resource.Error(e.localizedMessage ?: "An unexpected error occurred")
+            }
         }
     }
 

@@ -75,7 +75,9 @@ fun CatListScreen(
                 }
             }
 
-
+            is Resource.Idle -> {
+                // No-op
+            }
         }
     }
 }

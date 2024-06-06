@@ -10,6 +10,7 @@ import com.example.catsocial.presentation.screen.adoption.AddAdoptionScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionConfirmationScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionDetailScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionScreen
+import com.example.catsocial.presentation.screen.adoption.AdoptionViewModel
 import com.example.catsocial.presentation.screen.auth.login.LoginScreen
 import com.example.catsocial.presentation.screen.auth.register.RegisterScreen
 import com.example.catsocial.presentation.screen.catlist.CatListDetailScreen
@@ -20,14 +21,15 @@ import com.example.catsocial.presentation.screen.reminder.ReminderScreen
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
-    NavHost(navController, startDestination = Screen.AdoptionAdd.route) {
+    NavHost(navController, startDestination = Screen.Adoption.route) {
 
         composable(Screen.Adoption.route) {
             AdoptionScreen(modifier, navController)
         }
 
         composable(Screen.AdoptionAdd.route) {
-            AddAdoptionScreen(modifier)
+            val adoptionViewModel: AdoptionViewModel = hiltViewModel()
+            AddAdoptionScreen(modifier, adoptionViewModel)
         }
 
         composable(Screen.AdoptionDetail.route) {

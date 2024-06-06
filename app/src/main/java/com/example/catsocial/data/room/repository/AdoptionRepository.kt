@@ -23,23 +23,12 @@ class AdoptionRepository @Inject constructor(
         }
     }
 
-    suspend fun insertAdoption(cat: Cat): Resource<Unit> {
-        return try {
-            catDao.insertAdoption(cat)
-            Resource.Success(Unit)
-        } catch (e: Exception) {
-            Resource.Error(e.localizedMessage ?: "An unexpected error occurred")
-        }
-
+    suspend fun insertAdoption(cat: Cat) {
+        catDao.insertAdoption(cat)
     }
 
-    suspend fun deleteAdoption(cat: Cat): Resource<Unit> {
-        return try {
-            catDao.deleteAdoption(cat)
-            Resource.Success(Unit)
-        } catch (e: Exception) {
-            Resource.Error(e.localizedMessage ?: "An unexpected error occurred")
-        }
+    suspend fun deleteAdoption(cat: Cat) {
+        catDao.deleteAdoption(cat)
     }
 
     suspend fun getAdoptionById(id: Int): Resource<Cat> {
