@@ -12,11 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.catsocial.data.retrofit.response.CatResponse
 import com.example.catsocial.presentation.components.CatInformationCard
+import com.example.catsocial.presentation.components.SearchBarKucing
 import com.example.catsocial.ui.theme.OrangePrimary
 import com.example.catsocial.util.Resource
 
@@ -26,9 +30,15 @@ fun CatListScreen(
     viewModel: CatListViewModel
 ) {
 
+    var searchText by remember { mutableStateOf("") }
+
     val catListState by viewModel.cats.collectAsState()
 
     Column(modifier = modifier.padding(16.dp)) {
+
+        SearchBarKucing(value = searchText, onValueChange = {
+            searchText = it
+        }, modifier = Modifier.padding(bottom = 24.dp))
 
         when (catListState) {
             is Resource.Error -> {
