@@ -33,7 +33,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.catsocial.R
 import com.example.catsocial.presentation.components.DescriptionTextField
-import com.example.catsocial.presentation.components.DropdownUmur
+import com.example.catsocial.presentation.components.DropdownField
+import com.example.catsocial.presentation.components.DropdownFieldWithTitle
 import com.example.catsocial.presentation.components.LargeBtn
 import com.example.catsocial.presentation.components.NormalTextField
 import com.example.catsocial.presentation.components.SmallBtn
@@ -51,9 +52,14 @@ fun AddAdoptionScreen(modifier: Modifier) {
     var deskripsiAnabul by remember { mutableStateOf("") }
 
 
-    val options = listOf("Tahun", "Bulan")
-    var selectedValue by remember { mutableStateOf("Tahun") }
-    var expanded by remember { mutableStateOf(false) }
+    val optionsUmur = listOf("Tahun", "Bulan")
+    var selectedValueUmur by remember { mutableStateOf("Tahun") }
+    var expandedUmur by remember { mutableStateOf(false) }
+
+
+    val optionsKelamin = listOf("Jantan", "Betina")
+    var selectedValueKelamin by remember { mutableStateOf("Jantan") }
+    var expandedKelamin by remember { mutableStateOf(false) }
 
 
     val launcher =
@@ -73,7 +79,7 @@ fun AddAdoptionScreen(modifier: Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(185.dp)
+                .height(255.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(Color.White), contentAlignment = Alignment.Center
         ) {
@@ -124,16 +130,18 @@ fun AddAdoptionScreen(modifier: Modifier) {
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            DropdownUmur(
-                modifier = Modifier.weight(0.4f).align(Alignment.Bottom),
-                selectedValue = selectedValue,
-                isExpanded = expanded,
+            DropdownField(
+                modifier = Modifier
+                    .weight(0.4f)
+                    .align(Alignment.Bottom),
+                selectedValue = selectedValueUmur,
+                isExpanded = expandedUmur,
                 onExpandedChange = {
-                    expanded = !expanded
+                    expandedUmur = !expandedUmur
                 },
-                items = options,
+                items = optionsUmur,
                 onValueChange = {
-                    selectedValue = it
+                    selectedValueUmur = it
                 }
             )
         }
@@ -147,11 +155,23 @@ fun AddAdoptionScreen(modifier: Modifier) {
             value = beratAnabul,
             onValueChange = { beratAnabul = it })
         Spacer(modifier = Modifier.height(16.dp))
-        NormalTextField(
+
+
+        DropdownFieldWithTitle(
             modifier = Modifier.fillMaxWidth(),
             titleTextField = "Kelamin Anabul",
-            value = kelaminAnabul,
-            onValueChange = { kelaminAnabul = it })
+            isExpanded = expandedKelamin,
+            selectedValue = selectedValueKelamin,
+            onExpandedChange = {
+                expandedKelamin = !expandedKelamin
+            },
+            items = optionsKelamin,
+            onValueChange = {
+                selectedValueKelamin = it
+            }
+        )
+
+
         Spacer(modifier = Modifier.height(16.dp))
         DescriptionTextField(
             modifier = Modifier.fillMaxWidth(),

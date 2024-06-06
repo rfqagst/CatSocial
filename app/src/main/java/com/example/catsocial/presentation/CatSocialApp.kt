@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.catsocial.presentation.components.BottomBarComponentAdoption
+import com.example.catsocial.presentation.components.TopBarComponent
 import com.example.catsocial.presentation.components.TopBarComponentAdoption
 import com.example.catsocial.presentation.navigation.NavGraph
 import com.example.catsocial.presentation.navigation.Screen
@@ -27,6 +28,11 @@ fun CatSocialApp(
             when (currentDestination) {
                 Screen.Adoption.route -> TopBarComponentAdoption(
                     name = "Rizal Hitam Manis",
+                    navController = navController
+                )
+
+                Screen.AdoptionAdd.route -> TopBarComponent(
+                    title = "Adopsikan Anabul",
                     navController = navController
                 )
             }

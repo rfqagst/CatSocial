@@ -88,7 +88,8 @@ fun NormalTextField(
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             shape = RoundedCornerShape(10.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .clip(RoundedCornerShape(10.dp))
                 .background(Color.White),
             value = value,
@@ -137,8 +138,78 @@ fun DescriptionTextField(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropdownUmur(
-    modifier: Modifier = Modifier,
+fun DropdownFieldWithTitle(
+    modifier: Modifier,
+    titleTextField : String,
+    isExpanded: Boolean,
+    selectedValue: String,
+    onExpandedChange: (Boolean) -> Unit,
+    items: List<String>,
+    onValueChange: (String) -> Unit,
+) {
+
+    Column {
+        Text(
+            text = titleTextField,
+            style = TextStyle(
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                fontWeight = FontWeight(700),
+            )
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        ExposedDropdownMenuBox(
+            modifier = modifier,
+            expanded = isExpanded,
+            onExpandedChange = onExpandedChange,
+        ) {
+            OutlinedTextField(
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(Color.White)
+                    .menuAnchor()
+                    .fillMaxWidth()
+                ,
+                value = selectedValue,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = {
+                    Icon(
+                        imageVector = if (isExpanded) Icons.Default.ArrowDropUp else Icons.Default.ArrowDropDown,
+                        contentDescription = null,
+                        tint = OrangePrimary
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = OrangePrimary,
+                    unfocusedBorderColor = Color.Transparent,
+                )
+            )
+
+            ExposedDropdownMenu(
+                modifier = modifier,
+                expanded = isExpanded,
+                onDismissRequest = { onExpandedChange(false) }
+            ) {
+                items.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(text = item) },
+                        onClick = {
+                            onValueChange(item)
+                            onExpandedChange(false)
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownField(
+    modifier: Modifier,
     isExpanded: Boolean,
     selectedValue: String,
     onExpandedChange: (Boolean) -> Unit,
