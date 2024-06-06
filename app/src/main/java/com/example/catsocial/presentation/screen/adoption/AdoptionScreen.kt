@@ -1,6 +1,5 @@
 package com.example.catsocial.presentation.screen.adoption
 
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -46,6 +44,8 @@ fun AdoptionScreen(
 
     val adoptionData by viewModel.allAdoptions.collectAsState()
 
+    val searchResult by viewModel.searchAdoption.collectAsState()
+
 
     Column(modifier.padding(16.dp)) {
         BannerCard(
@@ -58,16 +58,19 @@ fun AdoptionScreen(
             value = searchText,
             onValueChange = {
                 searchText = it
+                viewModel.searchCatByRace(searchText)
             },
             modifier = Modifier
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
+        val dataToShow = if (searchText.isEmpty()) adoptionData else searchResult
 
-        when (adoptionData) {
+
+        when (dataToShow) {
             is Resource.Error -> {
-                Log.d("ListInformasiScreen", "Error: ${adoptionData.message}")
+                Log.d("AdoptionScreen", "Error: ${adoptionData.message}")
 
             }
 
@@ -89,7 +92,7 @@ fun AdoptionScreen(
             }
 
             is Resource.Success -> {
-                val adoption = (adoptionData as Resource.Success<List<Cat>>).data
+                val adoption = dataToShow.data
 
                 adoption?.let { adopts ->
                     LazyVerticalGrid(
@@ -103,7 +106,7 @@ fun AdoptionScreen(
                         items(adopts.size) { index ->
                             val adoptions = adopts[index]
 
-                            val adoptionImage =  byteArrayToImageBitmap(adoptions.image)
+                            val adoptionImage = byteArrayToImageBitmap(adoptions.image)
 
                             AdoptionCard(
                                 image = adoptionImage!!,

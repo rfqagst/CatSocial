@@ -31,6 +31,17 @@ class AdoptionRepository @Inject constructor(
         catDao.deleteAdoption(cat)
     }
 
+    fun searchCatsByRace(race: String): Flow<Resource<List<Cat>>> = flow {
+        emit(Resource.Loading())
+        try {
+            catDao.searchCatsByRaces(race).collect { cats ->
+                emit(Resource.Success(cats))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
+
     suspend fun getAdoptionById(id: Int): Resource<Cat> {
         return try {
             val adoption = catDao.getAdoption(id)

@@ -19,6 +19,9 @@ class AdoptionViewModel @Inject constructor(
     private val _allAdoptions = MutableStateFlow<Resource<List<Cat>>>(Resource.Loading())
     val allAdoptions: StateFlow<Resource<List<Cat>>> = _allAdoptions
 
+    private val _searchAdoption = MutableStateFlow<Resource<List<Cat>>>(Resource.Loading())
+    val searchAdoption: StateFlow<Resource<List<Cat>>> = _searchAdoption
+
     private val _adoptionById = MutableStateFlow<Resource<Cat>>(Resource.Loading())
     val adoptionById: StateFlow<Resource<Cat>> = _adoptionById
 
@@ -56,6 +59,15 @@ class AdoptionViewModel @Inject constructor(
             repository.deleteAdoption(cat)
         }
     }
+
+    fun searchCatByRace(race: String) {
+        viewModelScope.launch {
+            repository.searchCatsByRace(race).collect { resource ->
+                _searchAdoption.value = resource
+            }
+        }
+    }
+
 
     fun getCatById(id: Int) {
         viewModelScope.launch {

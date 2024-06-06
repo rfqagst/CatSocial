@@ -205,10 +205,11 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
             onClick = {
                 selectedImageUri?.let { uri ->
                     val imageData = uriToByteArray(context, uri)
+                    val umur = "$umurAnabul $selectedValueUmur"
                     imageData?.let {
                         val cat = Cat(
                             name = namaAnabul,
-                            age = umurAnabul,
+                            age = umur,
                             weight = beratAnabul,
                             gender = selectedValueKelamin,
                             race = rasAnabul,

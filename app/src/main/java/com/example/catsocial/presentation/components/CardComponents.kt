@@ -102,8 +102,8 @@ fun AdoptionCard(
             Text(text = name, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(text = ras, fontWeight = FontWeight.Medium, fontSize = 16.sp)
             Row(modifier = Modifier.padding(top = 6.dp)) {
-                FilterCard(modifier = Modifier, text = "Jantan")
-                FilterCard(modifier = Modifier, text = "1 Tahun")
+                FilterCard(modifier = Modifier, text = gender)
+                FilterCard(modifier = Modifier, text = usia)
             }
         }
     }

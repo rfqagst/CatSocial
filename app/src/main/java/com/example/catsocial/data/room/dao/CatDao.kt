@@ -25,4 +25,6 @@ interface CatDao {
     @Query("SELECT * FROM cats WHERE id = :id")
     suspend fun getAdoption(id: Int): Cat
 
+    @Query("SELECT * FROM cats WHERE race LIKE :race")
+    fun searchCatsByRaces(race: String): Flow<List<Cat>>
 }
