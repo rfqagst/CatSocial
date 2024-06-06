@@ -24,7 +24,8 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
     NavHost(navController, startDestination = Screen.Adoption.route) {
 
         composable(Screen.Adoption.route) {
-            AdoptionScreen(modifier, navController)
+            val adoptionViewModel: AdoptionViewModel = hiltViewModel()
+            AdoptionScreen(modifier, navController, adoptionViewModel)
         }
 
         composable(Screen.AdoptionAdd.route) {

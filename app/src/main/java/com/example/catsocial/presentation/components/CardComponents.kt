@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -73,7 +74,7 @@ fun BannerCard(modifier: Modifier, navController: NavHostController) {
 
 @Composable
 fun AdoptionCard(
-    image: Int,
+    image: ImageBitmap,
     name: String,
     ras: String,
     gender: String,
@@ -88,7 +89,7 @@ fun AdoptionCard(
             .wrapContentSize()
     ) {
         Image(
-            painter = painterResource(id = image),
+            bitmap = image,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -200,29 +201,6 @@ fun CatInformationCard(modifier: Modifier, name: String, description: String, im
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
 fun Preview() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        AdoptionCard(
-            image = R.drawable.kucing1,
-            name = "Albert siwibu",
-            ras = "Anggora",
-            gender = "Laki-laki",
-            usia = "2 bulan",
-            modifier = Modifier
-        )
-        Spacer(modifier = Modifier.width(10.dp))
-        AdoptionCard(
-            image = R.drawable.kucing1,
-            name = "Albert siwibu",
-            ras = "Anggora",
-            gender = "Laki-laki",
-            usia = "2 bulan",
-            modifier = Modifier
-        )
-    }
 
 
 }

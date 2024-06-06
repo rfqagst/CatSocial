@@ -54,6 +54,7 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
     var namaAnabul by remember { mutableStateOf("") }
+    var rasAnabul by remember { mutableStateOf("") }
     var umurAnabul by remember { mutableStateOf("") }
     var beratAnabul by remember { mutableStateOf("") }
     var deskripsiAnabul by remember { mutableStateOf("") }
@@ -131,6 +132,12 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
             value = namaAnabul,
             onValueChange = { namaAnabul = it })
         Spacer(modifier = Modifier.height(16.dp))
+        NormalTextField(
+            modifier = Modifier.fillMaxWidth(),
+            titleTextField = "Ras Anabul",
+            value = rasAnabul,
+            onValueChange = { rasAnabul = it })
+        Spacer(modifier = Modifier.height(16.dp))
 
 
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -204,6 +211,7 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
                             age = umurAnabul,
                             weight = beratAnabul,
                             gender = selectedValueKelamin,
+                            race = rasAnabul,
                             description = deskripsiAnabul,
                             image = it
                         )

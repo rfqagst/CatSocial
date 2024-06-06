@@ -1,23 +1,12 @@
 package com.example.catsocial.util
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Base64
-import androidx.room.TypeConverter
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
-
-class ConvertersImage {
-    @TypeConverter
-    fun fromByteArray(value: ByteArray): String {
-        return Base64.encodeToString(value, Base64.DEFAULT)
-    }
-
-    @TypeConverter
-    fun toByteArray(value: String): ByteArray {
-        return Base64.decode(value, Base64.DEFAULT)
-    }
-}
 
 fun uriToByteArray(context: Context, uri: Uri): ByteArray? {
     return try {
@@ -37,4 +26,8 @@ fun uriToByteArray(context: Context, uri: Uri): ByteArray? {
         e.printStackTrace()
         null
     }
+}
+
+fun byteArrayToImageBitmap(byteArray: ByteArray): ImageBitmap? {
+    return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)?.asImageBitmap()
 }
