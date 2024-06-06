@@ -1,6 +1,7 @@
 package com.example.catsocial.presentation.components
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.catsocial.ui.theme.GreyPrimary
 import com.example.catsocial.ui.theme.OrangePrimary
 
 @Composable
@@ -43,6 +45,37 @@ fun SmallBtn(
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             ),
+        )
+
+    }
+}
+
+@Composable
+fun LargeBtn(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier,
+    enabled: Boolean = true
+) {
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = OrangePrimary,
+            contentColor = Color.White
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(51.dp),
+        shape = RoundedCornerShape(10.dp),
+        enabled = enabled
+    ) {
+        Text(
+            text = text,
+            style = TextStyle(
+                fontSize = 18.sp,
+                lineHeight = 27.sp,
+                fontWeight = FontWeight(700),
+            )
         )
 
     }

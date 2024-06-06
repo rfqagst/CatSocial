@@ -20,7 +20,7 @@ import com.example.catsocial.presentation.screen.reminder.ReminderScreen
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
-    NavHost(navController, startDestination = Screen.Adoption.route) {
+    NavHost(navController, startDestination = Screen.AdoptionAdd.route) {
 
         composable(Screen.Adoption.route) {
             AdoptionScreen(modifier, navController)
