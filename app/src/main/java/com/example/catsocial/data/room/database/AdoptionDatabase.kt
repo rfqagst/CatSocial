@@ -1,4 +1,4 @@
-package com.example.catsocial.data.room
+package com.example.catsocial.data.room.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

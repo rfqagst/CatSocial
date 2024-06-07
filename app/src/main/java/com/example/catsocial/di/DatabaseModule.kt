@@ -2,9 +2,12 @@ package com.example.catsocial.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.catsocial.data.room.AdoptionDatabase
 import com.example.catsocial.data.room.dao.CatDao
+import com.example.catsocial.data.room.dao.ReminderDao
+import com.example.catsocial.data.room.database.AdoptionDatabase
+import com.example.catsocial.data.room.database.ReminderDatabase
 import com.example.catsocial.data.room.repository.AdoptionRepository
+import com.example.catsocial.data.room.repository.ReminderRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +21,7 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): AdoptionDatabase {
+    fun provideAdoptionDatabase(@ApplicationContext context: Context): AdoptionDatabase {
         return Room.databaseBuilder(context, AdoptionDatabase::class.java, "adoption_database")
             .fallbackToDestructiveMigration()
             .build()
@@ -30,5 +33,24 @@ object DatabaseModule {
 
     @Provides
     fun provideAdoptionRepository(catDao: CatDao): AdoptionRepository = AdoptionRepository(catDao)
+
+
+
+    @Provides
+    @Singleton
+    fun provideReminderDatabase(@ApplicationContext context: Context): ReminderDatabase {
+        return Room.databaseBuilder(context, ReminderDatabase::class.java, "adoption_database")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Provides
+    fun provideReminderDao(database: ReminderDatabase): ReminderDao = database.reminderDao()
+
+
+    @Provides
+    fun provideReminderRepository(reminderDao: ReminderDao): ReminderRepository =
+        ReminderRepository(reminderDao)
+
 }
 

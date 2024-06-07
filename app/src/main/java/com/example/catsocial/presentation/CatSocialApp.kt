@@ -35,6 +35,16 @@ fun CatSocialApp(
                     title = "Adopsikan Anabul",
                     navController = navController
                 )
+
+                Screen.CatListDetail.route -> TopBarComponent(
+                    title = "Detail Anabul",
+                    navController = navController
+                )
+
+                Screen.AdoptionDetail.route -> TopBarComponent(
+                    title = "Detail Anabul",
+                    navController = navController
+                )
             }
         },
         bottomBar = {
@@ -54,7 +64,7 @@ fun CatSocialApp(
                     items = bottomNavItem
                 )
             }
-        }
+        },
     ) { paddingValues ->
         NavGraph(navController = navController, modifier = Modifier.padding(paddingValues))
 
