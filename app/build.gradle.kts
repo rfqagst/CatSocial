@@ -39,9 +39,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    kapt {
-        correctErrorTypes = true
-    }
+
     buildFeatures {
         compose = true
     }
@@ -80,6 +78,7 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation (libs.androidx.hilt.navigation.compose)
 
+
     //room
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
@@ -112,4 +111,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+kapt {
+    correctErrorTypes = true
 }
