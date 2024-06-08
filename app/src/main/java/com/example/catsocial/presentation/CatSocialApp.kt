@@ -31,17 +31,17 @@ fun CatSocialApp(
                     navController = navController
                 )
 
-                Screen.AdoptionAdd.route -> TopBarComponent(
+                Screen.AdoptionAdd.route  -> TopBarComponent(
                     title = "Adopsikan Anabul",
                     navController = navController
                 )
 
-                Screen.CatListDetail.route -> TopBarComponent(
+                Screen.CatListDetail.route  + "/{catId}" -> TopBarComponent(
                     title = "Detail Anabul",
                     navController = navController
                 )
 
-                Screen.AdoptionDetail.route -> TopBarComponent(
+                Screen.AdoptionDetail.route + "/{adoptionId}" -> TopBarComponent(
                     title = "Detail Anabul",
                     navController = navController
                 )

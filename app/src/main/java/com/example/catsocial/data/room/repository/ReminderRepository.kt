@@ -1,5 +1,8 @@
 package com.example.catsocial.data.room.repository
 
+import android.app.AlarmManager
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.catsocial.data.room.dao.ReminderDao
 import com.example.catsocial.data.room.entity.Reminder
 import com.example.catsocial.util.Resource
@@ -8,7 +11,8 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ReminderRepository @Inject constructor(
-    private val reminderDao: ReminderDao
+    private val reminderDao: ReminderDao,
+
 ) {
 
     suspend fun insertReminder(reminder: Reminder): Flow<Resource<Unit>> = flow {
@@ -33,7 +37,7 @@ class ReminderRepository @Inject constructor(
         }
     }
 
-    suspend fun updateReminder(reminder: Reminder) : Flow<Resource<Unit>> = flow {
+    suspend fun updateReminder(reminder: Reminder): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading())
         try {
             val resource = reminderDao.updateReminder(reminder)

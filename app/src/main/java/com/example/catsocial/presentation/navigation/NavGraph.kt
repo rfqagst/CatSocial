@@ -18,6 +18,7 @@ import com.example.catsocial.presentation.screen.catlist.CatListDetailScreen
 import com.example.catsocial.presentation.screen.catlist.CatListScreen
 import com.example.catsocial.presentation.screen.catlist.CatListViewModel
 import com.example.catsocial.presentation.screen.reminder.ReminderScreen
+import com.example.catsocial.presentation.screen.reminder.ReminderViewModel
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
@@ -73,7 +74,9 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
 
         composable(Screen.Reminder.route) {
-            ReminderScreen(modifier)
+            val reminderViewModel: ReminderViewModel = hiltViewModel()
+
+            ReminderScreen(modifier,reminderViewModel)
         }
 
 

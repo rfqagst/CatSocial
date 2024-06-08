@@ -1,17 +1,25 @@
 package com.example.catsocial.presentation.screen.reminder
 
+import android.app.AlarmManager
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.catsocial.data.room.entity.Reminder
 import com.example.catsocial.data.room.repository.ReminderRepository
 import com.example.catsocial.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class ReminderViewModel @Inject constructor(
-    private val reminderRepository: ReminderRepository
+    private val reminderRepository: ReminderRepository,
+    private val notificationManager: NotificationManagerCompat,
+    private val notificationBuilder: NotificationCompat.Builder,
+    private val alarmManager: AlarmManager
 ) : ViewModel() {
 
     private val _allReminders = MutableStateFlow<Resource<List<Reminder>>>(Resource.Loading())
@@ -56,6 +64,11 @@ class ReminderViewModel @Inject constructor(
                 _deleteReminders.value = resource
             }
         }
+    }
+
+
+    fun showNotification() {
+        notificationManager.notify(1, notificationBuilder.build())
     }
 
 }

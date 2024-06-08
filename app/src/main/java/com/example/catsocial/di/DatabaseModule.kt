@@ -35,7 +35,6 @@ object DatabaseModule {
     fun provideAdoptionRepository(catDao: CatDao): AdoptionRepository = AdoptionRepository(catDao)
 
 
-
     @Provides
     @Singleton
     fun provideReminderDatabase(@ApplicationContext context: Context): ReminderDatabase {
@@ -49,8 +48,9 @@ object DatabaseModule {
 
 
     @Provides
-    fun provideReminderRepository(reminderDao: ReminderDao): ReminderRepository =
+    fun provideReminderRepository(
+        reminderDao: ReminderDao,
+    ): ReminderRepository =
         ReminderRepository(reminderDao)
-
 }
 
