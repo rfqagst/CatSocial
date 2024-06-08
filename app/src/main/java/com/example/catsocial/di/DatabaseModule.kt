@@ -38,7 +38,7 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideReminderDatabase(@ApplicationContext context: Context): ReminderDatabase {
-        return Room.databaseBuilder(context, ReminderDatabase::class.java, "adoption_database")
+        return Room.databaseBuilder(context, ReminderDatabase::class.java, "reminder_database")
             .fallbackToDestructiveMigration()
             .build()
     }

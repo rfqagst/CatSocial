@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
@@ -45,8 +46,14 @@ class ReminderViewModel @Inject constructor(
     private val _remainingTime = MutableStateFlow(0L)
     val remainingTime: StateFlow<Long> = _remainingTime
 
-    private var countDownTimer: CountDownTimer? = null
+    private val countdownTimers = mutableMapOf<Int, CountDownTimer>()
 
+    private val _remainingTimeMap = MutableStateFlow<Map<Int, Long>>(emptyMap())
+    val remainingTimeMap: StateFlow<Map<Int, Long>> = _remainingTimeMap
+
+    init {
+        getReminders()
+    }
 
     fun getReminders() {
         viewModelScope.launch {
@@ -81,18 +88,29 @@ class ReminderViewModel @Inject constructor(
     }
 
 
-    fun startCountdown(millisInFuture: Long) {
-        countDownTimer?.cancel()
-        countDownTimer = object : CountDownTimer(millisInFuture, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                _remainingTime.value = millisUntilFinished
+    fun startCountdown(reminderId: Int, millisInFuture: Long) {
+        if (millisInFuture > 0) {
+            _remainingTimeMap.value = _remainingTimeMap.value.toMutableMap().apply {
+                this[reminderId] = millisInFuture
             }
+            countdownTimers[reminderId]?.cancel()
+            countdownTimers[reminderId] = object : CountDownTimer(millisInFuture, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    _remainingTimeMap.value = _remainingTimeMap.value.toMutableMap().apply {
+                        this[reminderId] = millisUntilFinished
+                    }
+                }
 
-            override fun onFinish() {
-                _remainingTime.value = 0L
-                setAlarm(millisInFuture)
-            }
-        }.start()
+                override fun onFinish() {
+                    _remainingTimeMap.value = _remainingTimeMap.value.toMutableMap().apply {
+                        this[reminderId] = 0L
+                    }
+                    setAlarm(reminderId, millisInFuture)
+                }
+            }.start()
+        } else {
+            Log.d("ReminderViewModel", "The countdown time for reminder $reminderId is in the past.")
+        }
     }
 
     fun canScheduleExactAlarms(): Boolean {
@@ -110,19 +128,19 @@ class ReminderViewModel @Inject constructor(
         }
     }
 
-    private fun setAlarm(millisInFuture: Long) {
+    private fun setAlarm(reminderId : Int, millisInFuture: Long) {
         if (canScheduleExactAlarms()) {
             val intent = Intent(context, AlarmReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                0,
+                reminderId,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
             alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
-                millisInFuture ,
+                millisInFuture,
                 pendingIntent
             )
         } else {

@@ -237,6 +237,8 @@ fun ReminderCard(modifier: Modifier, reminderName: String, reminderTime: String)
             )
         }
     }
+    Spacer(modifier = Modifier.height(16.dp))
+
 }
 
 

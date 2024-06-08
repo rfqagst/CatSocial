@@ -8,5 +8,5 @@ data class Reminder(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name : String,
-    val time : Int,
+    val time : Long,
 )
