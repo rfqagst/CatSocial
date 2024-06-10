@@ -29,3 +29,4 @@ var bottomNavItem = listOf(
         route = "reminderScreen"
     )
 )
+

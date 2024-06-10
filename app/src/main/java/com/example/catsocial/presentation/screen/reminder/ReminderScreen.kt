@@ -43,10 +43,13 @@ fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel) {
                 val currentTimeInMillis = System.currentTimeMillis()
                 val millisInFuture = reminderTimeInMillis - currentTimeInMillis
 
-                Log.d("ReminderScreen", "Current time: $currentTimeInMillis, Reminder time: $reminderTimeInMillis, Millis in future: $millisInFuture")
+                Log.d(
+                    "ReminderScreen",
+                    "Current time: $currentTimeInMillis, Reminder time: $reminderTimeInMillis, Millis in future: $millisInFuture"
+                )
 
                 if (millisInFuture > 0) {
-                    viewModel.startCountdown(reminder.id, millisInFuture)
+                    viewModel.startCountdown(reminder.id, millisInFuture, reminder.name)
                 } else {
                     Log.d("ReminderScreen", "The reminder time is in the past.")
                 }
@@ -59,7 +62,7 @@ fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            val newReminderTime = System.currentTimeMillis() + 5600000
+            val newReminderTime = System.currentTimeMillis() + 3000
             viewModel.insertReminder(
                 Reminder(
                     id = 20,
@@ -103,7 +106,7 @@ fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel) {
                             val reminderTime = if (remainingTime > 0) {
                                 formatDuration(remainingTime)
                             } else {
-                                "Waktu habis"
+                                "00 Jam : 00 Menit : 00 Detik"
                             }
                             ReminderCard(
                                 modifier = Modifier,

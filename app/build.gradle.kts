@@ -55,6 +55,10 @@ android {
 
 dependencies {
 
+    //map
+    implementation(libs.maps.compose)
+
+
     //coil
     implementation(libs.coil.compose)
 

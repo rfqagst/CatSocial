@@ -25,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ import com.example.catsocial.presentation.components.DropdownField
 import com.example.catsocial.presentation.components.DropdownFieldWithTitle
 import com.example.catsocial.presentation.components.LargeBtn
 import com.example.catsocial.presentation.components.NormalTextField
+import com.example.catsocial.presentation.components.NormalTextFieldTrailingText
 import com.example.catsocial.presentation.components.SmallBtn
 import com.example.catsocial.ui.theme.GreyPrimary
 import com.example.catsocial.util.Resource
@@ -53,21 +55,22 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
 
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
-    var namaAnabul by remember { mutableStateOf("") }
-    var rasAnabul by remember { mutableStateOf("") }
-    var umurAnabul by remember { mutableStateOf("") }
-    var beratAnabul by remember { mutableStateOf("") }
-    var deskripsiAnabul by remember { mutableStateOf("") }
+    var namaAnabul by rememberSaveable { mutableStateOf("") }
+    var rasAnabul by rememberSaveable { mutableStateOf("") }
+    var umurAnabul by rememberSaveable { mutableStateOf("") }
+    var beratAnabul by rememberSaveable { mutableStateOf("") }
+    var kotaAnabul by rememberSaveable { mutableStateOf("") }
+    var deskripsiAnabul by rememberSaveable { mutableStateOf("") }
 
 
     val optionsUmur = listOf("Tahun", "Bulan")
-    var selectedValueUmur by remember { mutableStateOf("Tahun") }
-    var expandedUmur by remember { mutableStateOf(false) }
+    var selectedValueUmur by rememberSaveable { mutableStateOf("Tahun") }
+    var expandedUmur by rememberSaveable { mutableStateOf(false) }
 
 
     val optionsKelamin = listOf("Jantan", "Betina")
-    var selectedValueKelamin by remember { mutableStateOf("Jantan") }
-    var expandedKelamin by remember { mutableStateOf(false) }
+    var selectedValueKelamin by rememberSaveable { mutableStateOf("Jantan") }
+    var expandedKelamin by rememberSaveable { mutableStateOf(false) }
 
 
     val insertState by viewModel.insertAdoptionState.collectAsState()
@@ -130,13 +133,18 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
             modifier = Modifier.fillMaxWidth(),
             titleTextField = "Nama Anabul",
             value = namaAnabul,
-            onValueChange = { namaAnabul = it })
+            onValueChange = { namaAnabul = it },
+            placeholderText = "Ikbal, Asep, Micho"
+
+        )
         Spacer(modifier = Modifier.height(16.dp))
         NormalTextField(
             modifier = Modifier.fillMaxWidth(),
             titleTextField = "Ras Anabul",
             value = rasAnabul,
-            onValueChange = { rasAnabul = it })
+            onValueChange = { rasAnabul = it },
+            placeholderText = "Persia Jawa, Anggora, Sphinx, Kampung"
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
 
@@ -145,7 +153,8 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
                 modifier = Modifier.weight(0.7f),
                 titleTextField = "Umur Anabul",
                 value = umurAnabul,
-                onValueChange = { umurAnabul = it })
+                onValueChange = { umurAnabul = it }, placeholderText = "1,3,4,2"
+            )
 
             Spacer(modifier = Modifier.width(8.dp))
 
@@ -168,11 +177,12 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        NormalTextField(
+        NormalTextFieldTrailingText(
             modifier = Modifier.fillMaxWidth(),
             titleTextField = "Berat Anabul",
             value = beratAnabul,
-            onValueChange = { beratAnabul = it })
+            onValueChange = { beratAnabul = it }, placeholderText = "2,5,6"
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
 
@@ -192,6 +202,15 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
 
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        NormalTextField(
+            modifier = Modifier.fillMaxWidth(),
+            titleTextField = "Kota",
+            value = kotaAnabul,
+            onValueChange = { kotaAnabul = it }, placeholderText = "Sumendang, Ngawi, Boyolali"
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
         DescriptionTextField(
             modifier = Modifier.fillMaxWidth(),
             titleTextField = "Deskripsi Anabul",
@@ -206,15 +225,17 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
                 selectedImageUri?.let { uri ->
                     val imageData = uriToByteArray(context, uri)
                     val umur = "$umurAnabul $selectedValueUmur"
+                    val weight = "$beratAnabul KG"
                     imageData?.let {
                         val cat = Cat(
                             name = namaAnabul,
                             age = umur,
-                            weight = beratAnabul,
+                            weight = weight,
                             gender = selectedValueKelamin,
                             race = rasAnabul,
                             description = deskripsiAnabul,
-                            image = it
+                            image = it,
+                            kota = kotaAnabul
                         )
                         viewModel.insertAdoption(cat)
                     }
@@ -226,18 +247,21 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
             },
             modifier = Modifier
         )
-        Spacer(modifier = Modifier.height(28.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
 
         when (insertState) {
             is Resource.Error -> {
+                val errorMessage = (insertState as Resource.Error).message ?: "Unknown error"
+
                 Text(
                     fontSize = 16.sp,
                     modifier = Modifier.padding(vertical = 32.dp),
                     color = Color.Red,
-                    text = "Gagal Menambahkan Koleksi Tanaman"
+                    text = "Gagal Menambahkan Koleksi Tanaman : $errorMessage"
                 )
             }
+
             is Resource.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier
@@ -246,6 +270,7 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
                         .align(Alignment.CenterHorizontally)
                 )
             }
+
             is Resource.Success -> {
                 Text(
                     fontSize = 16.sp,

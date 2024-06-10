@@ -8,6 +8,9 @@ sealed class Screen(val route : String) {
     data object AdoptionAdd : Screen("adoptionAddScreen")
 
 
+    data object Map : Screen("mapScreen")
+
+
     data object Login : Screen("loginScreen")
     data object Register : Screen("registerScreen")
 

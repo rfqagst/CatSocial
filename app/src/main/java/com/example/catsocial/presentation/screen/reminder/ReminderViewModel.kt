@@ -6,13 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.CountDownTimer
 import android.util.Log
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.catsocial.data.room.entity.Reminder
 import com.example.catsocial.data.room.repository.ReminderRepository
-import com.example.catsocial.receiver.AlarmReceiver
+import com.example.catsocial.presentation.receiver.AlarmReceiver
 import com.example.catsocial.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,8 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ReminderViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
-    private val notificationManager: NotificationManagerCompat,
-    private val notificationBuilder: NotificationCompat.Builder,
     private val alarmManager: AlarmManager,
     @ApplicationContext private val context: Context
 
@@ -43,8 +39,6 @@ class ReminderViewModel @Inject constructor(
     private val _deleteReminders = MutableStateFlow<Resource<Unit>>(Resource.Loading())
     val deleteReminders: StateFlow<Resource<Unit>> = _deleteReminders
 
-    private val _remainingTime = MutableStateFlow(0L)
-    val remainingTime: StateFlow<Long> = _remainingTime
 
     private val countdownTimers = mutableMapOf<Int, CountDownTimer>()
 
@@ -87,8 +81,23 @@ class ReminderViewModel @Inject constructor(
         }
     }
 
+    fun canScheduleExactAlarms(): Boolean {
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            alarmManager.canScheduleExactAlarms()
+        } else {
+            true
+        }
+    }
 
-    fun startCountdown(reminderId: Int, millisInFuture: Long) {
+    fun requestExactAlarmPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+            val intent = Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+            context.startActivity(intent)
+        }
+    }
+
+
+    fun startCountdown(reminderId: Int, millisInFuture: Long, reminderName : String) {
         if (millisInFuture > 0) {
             _remainingTimeMap.value = _remainingTimeMap.value.toMutableMap().apply {
                 this[reminderId] = millisInFuture
@@ -105,7 +114,7 @@ class ReminderViewModel @Inject constructor(
                     _remainingTimeMap.value = _remainingTimeMap.value.toMutableMap().apply {
                         this[reminderId] = 0L
                     }
-                    setAlarm(reminderId, millisInFuture)
+                    setAlarm(reminderId, millisInFuture ,reminderName)
                 }
             }.start()
         } else {
@@ -113,24 +122,13 @@ class ReminderViewModel @Inject constructor(
         }
     }
 
-    fun canScheduleExactAlarms(): Boolean {
-        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            alarmManager.canScheduleExactAlarms()
-        } else {
-            true
-        }
-    }
 
-    fun requestExactAlarmPermission() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
-            val intent = Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-            context.startActivity(intent)
-        }
-    }
 
-    private fun setAlarm(reminderId : Int, millisInFuture: Long) {
+    private fun setAlarm(reminderId : Int, millisInFuture: Long, reminderName : String) {
         if (canScheduleExactAlarms()) {
-            val intent = Intent(context, AlarmReceiver::class.java)
+            val intent = Intent(context, AlarmReceiver::class.java).apply {
+                putExtra("reminderName", reminderName)
+            }
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
                 reminderId,

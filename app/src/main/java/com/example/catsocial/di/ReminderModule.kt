@@ -22,8 +22,6 @@ object ReminderModule {
     fun provideNotificationBuilder(@ApplicationContext context: Context): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, "eat_reminder_channel")
             .setSmallIcon(R.drawable.ic_paw)
-            .setContentTitle("Reminder Pemberian Makan")
-            .setContentText("Saat nya Pemberian makan MAKAN PAGI")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
     }
 

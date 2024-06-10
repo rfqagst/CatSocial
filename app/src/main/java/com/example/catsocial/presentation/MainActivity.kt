@@ -22,6 +22,9 @@ class MainActivity : ComponentActivity() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S && !reminderViewModel.canScheduleExactAlarms()) {
             reminderViewModel.requestExactAlarmPermission()
         }
+
     }
+
+
 }
 

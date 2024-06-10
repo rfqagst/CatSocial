@@ -12,6 +12,7 @@ import com.example.catsocial.presentation.screen.adoption.AdoptionConfirmationSc
 import com.example.catsocial.presentation.screen.adoption.AdoptionDetailScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionViewModel
+import com.example.catsocial.presentation.screen.adoption.map.MapsScreen
 import com.example.catsocial.presentation.screen.auth.login.LoginScreen
 import com.example.catsocial.presentation.screen.auth.register.RegisterScreen
 import com.example.catsocial.presentation.screen.catlist.CatListDetailScreen
@@ -23,7 +24,7 @@ import com.example.catsocial.presentation.screen.reminder.ReminderViewModel
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
-    NavHost(navController, startDestination = Screen.Adoption.route) {
+    NavHost(navController, startDestination = Screen.Adoption.route ) {
 
         composable(Screen.Adoption.route) {
             val adoptionViewModel: AdoptionViewModel = hiltViewModel()
@@ -38,8 +39,7 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         composable(Screen.AdoptionDetail.route + "/{adoptionId}") {
             val adoptionViewModel: AdoptionViewModel = hiltViewModel()
             val adoptionId = it.arguments?.getString("adoptionId") ?: ""
-            Log.d("adoptionIdNavGraph", adoptionId)
-            AdoptionDetailScreen(modifier, adoptionViewModel, adoptionId)
+            AdoptionDetailScreen(modifier, adoptionViewModel, adoptionId, navController)
         }
 
         composable(Screen.AdoptionConfirmation.route) {
@@ -79,6 +79,10 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             ReminderScreen(modifier,reminderViewModel)
         }
 
+
+        composable(Screen.Map.route) {
+            MapsScreen(modifier,navController)
+        }
 
     }
 }

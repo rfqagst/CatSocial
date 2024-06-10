@@ -3,6 +3,7 @@ package com.example.catsocial.presentation.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -19,6 +20,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -74,6 +76,7 @@ fun NormalTextField(
     modifier: Modifier,
     titleTextField: String,
     value: String,
+    placeholderText: String,
     onValueChange: (String) -> Unit,
 ) {
     Column(modifier = modifier) {
@@ -87,6 +90,64 @@ fun NormalTextField(
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
+            placeholder = {
+                Text(
+                    text = placeholderText,
+                    fontSize = 14.sp,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .align(Alignment.CenterHorizontally),
+                    color = Color.Gray
+                )
+            },
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(10.dp))
+                .background(Color.White),
+            value = value,
+            onValueChange = onValueChange,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = OrangePrimary,
+                unfocusedBorderColor = Color.Transparent,
+            ),
+        )
+    }
+}
+
+
+@Composable
+fun NormalTextFieldTrailingText(
+    modifier: Modifier,
+    titleTextField: String,
+    value: String,
+    placeholderText: String,
+    onValueChange: (String) -> Unit,
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = titleTextField,
+            style = TextStyle(
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                fontWeight = FontWeight(700),
+            )
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(
+            suffix = {
+                Text(text = "KG", color = OrangePrimary, fontWeight = FontWeight.SemiBold)
+            },
+            placeholder = {
+                Text(
+                    text = placeholderText,
+                    fontSize = 14.sp,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .align(Alignment.CenterHorizontally),
+                    color = Color.Gray
+                )
+            },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -140,7 +201,7 @@ fun DescriptionTextField(
 @Composable
 fun DropdownFieldWithTitle(
     modifier: Modifier,
-    titleTextField : String,
+    titleTextField: String,
     isExpanded: Boolean,
     selectedValue: String,
     onExpandedChange: (Boolean) -> Unit,
@@ -169,8 +230,7 @@ fun DropdownFieldWithTitle(
                     .clip(RoundedCornerShape(10.dp))
                     .background(Color.White)
                     .menuAnchor()
-                    .fillMaxWidth()
-                ,
+                    .fillMaxWidth(),
                 value = selectedValue,
                 onValueChange = {},
                 readOnly = true,
@@ -227,8 +287,7 @@ fun DropdownField(
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .background(Color.White)
-                .menuAnchor()
-            ,
+                .menuAnchor(),
             value = selectedValue,
             onValueChange = {},
             readOnly = true,

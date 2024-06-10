@@ -106,8 +106,8 @@ fun AdoptionCard(
             Text(text = name, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Text(text = ras, fontWeight = FontWeight.Medium, fontSize = 16.sp)
             Row(modifier = Modifier.padding(top = 6.dp)) {
-                FilterCard(modifier = Modifier, text = gender)
-                FilterCard(modifier = Modifier, text = usia)
+                CategoryChip(modifier = Modifier, text = gender)
+                CategoryChip(modifier = Modifier, text = usia)
             }
         }
     }
@@ -115,9 +115,9 @@ fun AdoptionCard(
 
 
 @Composable
-fun FilterCard(modifier: Modifier, text: String) {
+fun CategoryChip(modifier: Modifier, text: String) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .padding(end = 6.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(OrangePrimary),

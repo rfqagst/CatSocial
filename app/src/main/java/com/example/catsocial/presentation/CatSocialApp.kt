@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.catsocial.presentation.components.BottomBarComponentAdoption
+import com.example.catsocial.presentation.components.BottomBarComponentAdoptionDetail
 import com.example.catsocial.presentation.components.TopBarComponent
 import com.example.catsocial.presentation.components.TopBarComponentAdoption
 import com.example.catsocial.presentation.navigation.NavGraph
@@ -45,6 +46,11 @@ fun CatSocialApp(
                     title = "Detail Anabul",
                     navController = navController
                 )
+
+                Screen.Map.route  -> TopBarComponent(
+                    title = "Lokasi Anabul",
+                    navController = navController
+                )
             }
         },
         bottomBar = {
@@ -62,6 +68,10 @@ fun CatSocialApp(
                 Screen.Reminder.route -> BottomBarComponentAdoption(
                     navController = navController,
                     items = bottomNavItem
+                )
+
+                Screen.AdoptionDetail.route + "/{adoptionId}" -> BottomBarComponentAdoptionDetail(
+                    navController = navController,
                 )
             }
         },

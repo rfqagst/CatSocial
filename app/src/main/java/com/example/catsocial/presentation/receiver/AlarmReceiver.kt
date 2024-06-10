@@ -1,4 +1,4 @@
-package com.example.catsocial.receiver
+package com.example.catsocial.presentation.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -19,11 +19,16 @@ class AlarmReceiver : BroadcastReceiver() {
     lateinit var notificationManager: NotificationManagerCompat
 
     override fun onReceive(context: Context, intent: Intent) {
-        showNotification()
-    }
+        val reminderName = intent.getStringExtra("reminderName") ?: "Reminder"
 
-    private fun showNotification() {
-        notificationManager.notify(1, notificationBuilder.build())
+        showNotification(reminderName)
+    }
+    private fun showNotification(reminderName: String) {
+        notificationManager.notify(1, notificationBuilder
+            .setContentTitle("Reminder Pemberian Makan")
+            .setContentText("$reminderName: Saatnya memberi makan si Anabul.")
+            .build()
+        )
     }
 
 }
