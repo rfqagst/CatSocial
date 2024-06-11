@@ -1,10 +1,15 @@
 package com.example.catsocial.presentation
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.catsocial.presentation.components.BottomBarComponentAdoption
@@ -14,6 +19,7 @@ import com.example.catsocial.presentation.components.TopBarComponentAdoption
 import com.example.catsocial.presentation.navigation.NavGraph
 import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.presentation.navigation.bottomNavItem
+import com.example.catsocial.ui.theme.OrangePrimary
 
 @Composable
 fun CatSocialApp(
@@ -32,12 +38,12 @@ fun CatSocialApp(
                     navController = navController
                 )
 
-                Screen.AdoptionAdd.route  -> TopBarComponent(
+                Screen.AdoptionAdd.route -> TopBarComponent(
                     title = "Adopsikan Anabul",
                     navController = navController
                 )
 
-                Screen.CatListDetail.route  + "/{catId}" -> TopBarComponent(
+                Screen.CatListDetail.route + "/{catId}" -> TopBarComponent(
                     title = "Detail Anabul",
                     navController = navController
                 )
@@ -47,7 +53,7 @@ fun CatSocialApp(
                     navController = navController
                 )
 
-                Screen.Map.route  -> TopBarComponent(
+                Screen.Map.route -> TopBarComponent(
                     title = "Lokasi Anabul",
                     navController = navController
                 )
@@ -75,6 +81,17 @@ fun CatSocialApp(
                 )
             }
         },
+        floatingActionButton = {
+            when (currentDestination) {
+                Screen.Reminder.route -> FloatingActionButton(
+                    onClick = { navController.navigate(Screen.AdoptionAdd.route) },
+                    containerColor = OrangePrimary
+                ) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add", tint = Color.White)
+                }
+            }
+
+        }
     ) { paddingValues ->
         NavGraph(navController = navController, modifier = Modifier.padding(paddingValues))
 

@@ -15,5 +15,7 @@ data class Cat(
     val gender : String,
     val race : String,
     val kota : String,
+    val latitude: Double,
+    val longitude: Double, 
     val description : String,
 )

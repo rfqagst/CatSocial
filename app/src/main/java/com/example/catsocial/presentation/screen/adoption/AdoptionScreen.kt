@@ -1,6 +1,9 @@
 package com.example.catsocial.presentation.screen.adoption
 
+import android.Manifest
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,8 +36,12 @@ import com.example.catsocial.presentation.components.SearchBarKucing
 import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.util.Resource
 import com.example.catsocial.util.byteArrayToImageBitmap
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 
+@OptIn(ExperimentalPermissionsApi::class)
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun AdoptionScreen(
     modifier: Modifier,
@@ -46,6 +54,18 @@ fun AdoptionScreen(
     val adoptionData by viewModel.allAdoptions.collectAsState()
 
     val searchResult by viewModel.searchAdoption.collectAsState()
+
+    val permissions = listOf(
+        Manifest.permission.USE_EXACT_ALARM,
+        Manifest.permission.POST_NOTIFICATIONS,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+    )
+
+    val multiplePermissionsState = rememberMultiplePermissionsState(permissions)
+
+    LaunchedEffect(key1 = Unit) {
+        multiplePermissionsState.launchMultiplePermissionRequest()
+    }
 
 
     Column(modifier.padding(16.dp)) {
@@ -121,7 +141,7 @@ fun AdoptionScreen(
                                 usia = adoptions.age,
                                 ras = adoptions.race,
 
-                            )
+                                )
                         }
                     }
                 }

@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val reminderViewModel: ReminderViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,9 +17,6 @@ class MainActivity : ComponentActivity() {
             CatSocialTheme {
                 CatSocialApp()
             }
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S && !reminderViewModel.canScheduleExactAlarms()) {
-            reminderViewModel.requestExactAlarmPermission()
         }
 
     }
