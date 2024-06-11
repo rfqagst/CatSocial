@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.example.catsocial.R
 import com.example.catsocial.ui.theme.GreyPrimary
 import com.example.catsocial.ui.theme.OrangePrimary
+import com.example.catsocial.ui.theme.PrimaryLight
 
 @Composable
 fun NormalTextField(
@@ -199,6 +200,62 @@ fun PasswordtTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(GreyPrimary, RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(10.dp)),
+            shape = RoundedCornerShape(10.dp),
+            value = value,
+            onValueChange = onValueChange,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = OrangePrimary,
+                unfocusedBorderColor = Color.Transparent,
+            ),
+            trailingIcon = {
+                IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                    Icon(
+                        painter = icon,
+                        contentDescription = "vis"
+                    )
+                }
+            },
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
+
+        )
+    }
+}
+
+@Composable
+fun PasswordtTextFieldGreen(
+    modifier: Modifier,
+    titleTextField: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+) {
+    Column(modifier = modifier) {
+        var normalText by rememberSaveable {
+            mutableStateOf("")
+        }
+
+        var passwordVisibility by remember {
+            mutableStateOf(false)
+        }
+
+        val icon = if (passwordVisibility)
+            painterResource(id = R.drawable.baseline_visibility_24)
+        else
+            painterResource(id = R.drawable.baseline_visibility_off_24)
+        Text(
+            text = titleTextField,
+            style = TextStyle(
+                fontSize = 18.sp,
+                lineHeight = 24.sp,
+                color = Color(0XFF142A3B),
+                fontWeight = FontWeight(400),
+            )
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(PrimaryLight, RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp)),
             shape = RoundedCornerShape(10.dp),
             value = value,

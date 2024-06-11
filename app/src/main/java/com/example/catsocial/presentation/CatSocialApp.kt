@@ -1,5 +1,7 @@
 package com.example.catsocial.presentation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -19,22 +21,26 @@ import com.example.catsocial.presentation.components.TopBarComponentAdoption
 import com.example.catsocial.presentation.navigation.NavGraph
 import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.presentation.navigation.bottomNavItem
+import com.example.catsocial.presentation.screen.auth.AuthViewModel
 import com.example.catsocial.ui.theme.OrangePrimary
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun CatSocialApp(
-
+    authViewModel: AuthViewModel
 ) {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
 
+    val currentUser = authViewModel.currentUser?.displayName ?: ""
+
     Scaffold(
         topBar = {
             when (currentDestination) {
                 Screen.Adoption.route -> TopBarComponentAdoption(
-                    name = "Rizal Hitam Manis",
+                    name = currentUser,
                     navController = navController
                 )
 
@@ -55,6 +61,19 @@ fun CatSocialApp(
 
                 Screen.Map.route -> TopBarComponent(
                     title = "Lokasi Anabul",
+                    navController = navController
+                )
+
+                Screen.Profile.route -> TopBarComponent(
+                    title = "Profil",
+                    navController = navController
+                )
+                Screen.EditPassword.route -> TopBarComponent(
+                    title = "Edit Password",
+                    navController = navController
+                )
+                Screen.EditProfile.route -> TopBarComponent(
+                    title = "Edit Profile",
                     navController = navController
                 )
             }

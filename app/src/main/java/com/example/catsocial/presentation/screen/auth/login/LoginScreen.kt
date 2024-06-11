@@ -87,8 +87,8 @@ fun LoginScreen(
 
     if (authViewModel.isLoggedIn()) {
         LaunchedEffect(Unit) {
-            navController.navigate(Screen.Home.route) {
-                popUpTo(Screen.Home.route) {
+            navController.navigate(Screen.Adoption.route) {
+                popUpTo(Screen.Adoption.route) {
                     inclusive = true
                 }
             }
@@ -278,8 +278,8 @@ fun LoginScreen(
             }
             is Resource.Success -> {
                 LaunchedEffect(Unit) {
-                    navController.navigate(Screen.Home.route) {
-                        popUpTo(Screen.Home.route) {
+                    navController.navigate(Screen.Adoption.route) {
+                        popUpTo(Screen.Adoption.route) {
                             inclusive = true
                         }
                     }

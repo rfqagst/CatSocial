@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.catsocial.R
+import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.ui.theme.BlackPrimary
 
 @Composable
@@ -52,6 +53,9 @@ fun TopBarComponentAdoption(name: String, navController: NavHostController) {
             ) {
                 Image(
                     modifier = Modifier
+                        .clickable {
+                            navController.navigate(Screen.Profile.route)
+                        }
                         .clip(RoundedCornerShape(180.dp))
                         .width(50.dp)
                         .height(50.dp),

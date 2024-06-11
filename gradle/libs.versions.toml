@@ -28,6 +28,7 @@ firebaseAuth = "23.0.0"
 navigationRuntimeKtx = "2.7.7"
 uiTextGoogleFonts = "1.6.7"
 playServicesLocation = "21.3.0"
+material3Android = "1.2.1"
 
 
 [libraries]
@@ -67,6 +68,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

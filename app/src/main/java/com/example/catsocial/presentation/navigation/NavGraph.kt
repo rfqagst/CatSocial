@@ -21,6 +21,9 @@ import com.example.catsocial.presentation.screen.catlist.CatListDetailScreen
 import com.example.catsocial.presentation.screen.catlist.CatListScreen
 import com.example.catsocial.presentation.screen.catlist.CatListViewModel
 import com.example.catsocial.presentation.screen.map.MapsScreen
+import com.example.catsocial.presentation.screen.profile.EditPasswordScreen
+import com.example.catsocial.presentation.screen.profile.EditProfileScreen
+import com.example.catsocial.presentation.screen.profile.ProfileScreen
 import com.example.catsocial.presentation.screen.reminder.ReminderScreen
 import com.example.catsocial.presentation.screen.reminder.ReminderViewModel
 
@@ -28,7 +31,7 @@ import com.example.catsocial.presentation.screen.reminder.ReminderViewModel
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
-    NavHost(navController, startDestination = Screen.Adoption.route) {
+    NavHost(navController, startDestination = Screen.Login.route) {
 
         composable(Screen.Adoption.route) {
             val adoptionViewModel: AdoptionViewModel = hiltViewModel()
@@ -44,6 +47,17 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             val adoptionViewModel: AdoptionViewModel = hiltViewModel()
             val adoptionId = it.arguments?.getString("adoptionId") ?: ""
             AdoptionDetailScreen(modifier, adoptionViewModel, adoptionId, navController)
+        }
+        composable(route = Screen.Profile.route) {
+            val authViewModel: AuthViewModel = hiltViewModel()
+            ProfileScreen(modifier = modifier, authViewModel,navController)
+        }
+        composable(route = Screen.EditProfile.route) {
+            EditProfileScreen(modifier = Modifier)
+        }
+
+        composable(route = Screen.EditPassword.route) {
+            EditPasswordScreen(modifier = Modifier)
         }
 
         composable(Screen.AdoptionConfirmation.route) {
