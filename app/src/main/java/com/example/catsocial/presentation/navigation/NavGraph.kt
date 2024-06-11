@@ -1,6 +1,7 @@
 package com.example.catsocial.presentation.navigation
 
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,19 +13,20 @@ import com.example.catsocial.presentation.screen.adoption.AdoptionConfirmationSc
 import com.example.catsocial.presentation.screen.adoption.AdoptionDetailScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionViewModel
-import com.example.catsocial.presentation.screen.adoption.map.MapsScreen
 import com.example.catsocial.presentation.screen.auth.login.LoginScreen
 import com.example.catsocial.presentation.screen.auth.register.RegisterScreen
 import com.example.catsocial.presentation.screen.catlist.CatListDetailScreen
 import com.example.catsocial.presentation.screen.catlist.CatListScreen
 import com.example.catsocial.presentation.screen.catlist.CatListViewModel
+import com.example.catsocial.presentation.screen.map.MapsScreen
 import com.example.catsocial.presentation.screen.reminder.ReminderScreen
 import com.example.catsocial.presentation.screen.reminder.ReminderViewModel
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
-    NavHost(navController, startDestination = Screen.Adoption.route ) {
+    NavHost(navController, startDestination = Screen.Adoption.route) {
 
         composable(Screen.Adoption.route) {
             val adoptionViewModel: AdoptionViewModel = hiltViewModel()
@@ -76,12 +78,15 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         composable(Screen.Reminder.route) {
             val reminderViewModel: ReminderViewModel = hiltViewModel()
 
-            ReminderScreen(modifier,reminderViewModel)
+            ReminderScreen(modifier, reminderViewModel)
         }
 
 
-        composable(Screen.Map.route) {
-            MapsScreen(modifier,navController)
+        composable(Screen.Map.route + "/{catId}") {
+            val catId = it.arguments?.getString("catId") ?: ""
+            val adoptionViewModel: AdoptionViewModel = hiltViewModel()
+
+            MapsScreen(modifier, navController, catId, adoptionViewModel)
         }
 
     }

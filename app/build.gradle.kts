@@ -55,8 +55,14 @@ android {
 
 dependencies {
 
+
+    //accompanist
+    implementation (libs.accompanist.permissions)
+
+
     //map
     implementation(libs.maps.compose)
+    implementation (libs.gms.play.services.location.v2000)
 
 
     //coil
@@ -79,6 +85,7 @@ dependencies {
     //hilt
     implementation(libs.hilt.android)
     implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.play.services.location)
     kapt(libs.hilt.android.compiler)
     implementation (libs.androidx.hilt.navigation.compose)
 

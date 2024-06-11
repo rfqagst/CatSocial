@@ -1,6 +1,8 @@
 package com.example.catsocial.presentation.screen.adoption
 
+import android.location.Location
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -49,6 +51,8 @@ import com.example.catsocial.presentation.components.SmallBtn
 import com.example.catsocial.ui.theme.GreyPrimary
 import com.example.catsocial.util.Resource
 import com.example.catsocial.util.uriToByteArray
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 
 @Composable
 fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
@@ -82,6 +86,16 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
 
     val context = LocalContext.current
 
+    val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
+
+    fun getCurrentLocation(onLocationReceived: (LatLng) -> Unit) {
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                val currentLatLng = LatLng(it.latitude, it.longitude)
+                onLocationReceived(currentLatLng)
+            }
+        }
+    }
 
     Column(
         modifier
@@ -222,28 +236,32 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
         LargeBtn(
             text = "Adopsikan",
             onClick = {
-                selectedImageUri?.let { uri ->
-                    val imageData = uriToByteArray(context, uri)
-                    val umur = "$umurAnabul $selectedValueUmur"
-                    val weight = "$beratAnabul KG"
-                    imageData?.let {
-                        val cat = Cat(
-                            name = namaAnabul,
-                            age = umur,
-                            weight = weight,
-                            gender = selectedValueKelamin,
-                            race = rasAnabul,
-                            description = deskripsiAnabul,
-                            image = it,
-                            kota = kotaAnabul
-                        )
-                        viewModel.insertAdoption(cat)
+                getCurrentLocation { currentLatLng ->
+                    selectedImageUri?.let { uri ->
+                        val imageData = uriToByteArray(context, uri)
+                        val umur = "$umurAnabul $selectedValueUmur"
+                        val weight = "$beratAnabul KG"
+                        imageData?.let {
+                            val cat = Cat(
+                                name = namaAnabul,
+                                age = umur,
+                                weight = weight,
+                                gender = selectedValueKelamin,
+                                race = rasAnabul,
+                                description = deskripsiAnabul,
+                                image = it,
+                                kota = kotaAnabul,
+                                latitude = currentLatLng.latitude,
+                                longitude = currentLatLng.longitude,
+                            )
+                            viewModel.insertAdoption(cat)
+                            Log.d(
+                                "Location",
+                                "Latitude: ${currentLatLng.latitude}, Longitude: ${currentLatLng.longitude}"
+                            )
+                        }
                     }
-
-
                 }
-
-
             },
             modifier = Modifier
         )
