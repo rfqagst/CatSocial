@@ -13,12 +13,17 @@ import com.example.catsocial.presentation.screen.adoption.AdoptionConfirmationSc
 import com.example.catsocial.presentation.screen.adoption.AdoptionDetailScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionScreen
 import com.example.catsocial.presentation.screen.adoption.AdoptionViewModel
+import com.example.catsocial.presentation.screen.auth.AuthViewModel
+import com.example.catsocial.presentation.screen.auth.login.ForgotPassword
 import com.example.catsocial.presentation.screen.auth.login.LoginScreen
 import com.example.catsocial.presentation.screen.auth.register.RegisterScreen
 import com.example.catsocial.presentation.screen.catlist.CatListDetailScreen
 import com.example.catsocial.presentation.screen.catlist.CatListScreen
 import com.example.catsocial.presentation.screen.catlist.CatListViewModel
 import com.example.catsocial.presentation.screen.map.MapsScreen
+import com.example.catsocial.presentation.screen.profile.EditPasswordScreen
+import com.example.catsocial.presentation.screen.profile.EditProfileScreen
+import com.example.catsocial.presentation.screen.profile.ProfileScreen
 import com.example.catsocial.presentation.screen.reminder.ReminderScreen
 import com.example.catsocial.presentation.screen.reminder.ReminderViewModel
 
@@ -26,7 +31,7 @@ import com.example.catsocial.presentation.screen.reminder.ReminderViewModel
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
-    NavHost(navController, startDestination = Screen.Adoption.route) {
+    NavHost(navController, startDestination = Screen.Login.route) {
 
         composable(Screen.Adoption.route) {
             val adoptionViewModel: AdoptionViewModel = hiltViewModel()
@@ -43,6 +48,17 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             val adoptionId = it.arguments?.getString("adoptionId") ?: ""
             AdoptionDetailScreen(modifier, adoptionViewModel, adoptionId, navController)
         }
+        composable(route = Screen.Profile.route) {
+            val authViewModel: AuthViewModel = hiltViewModel()
+            ProfileScreen(modifier = modifier, authViewModel,navController)
+        }
+        composable(route = Screen.EditProfile.route) {
+            EditProfileScreen(modifier = Modifier)
+        }
+
+        composable(route = Screen.EditPassword.route) {
+            EditPasswordScreen(modifier = Modifier)
+        }
 
         composable(Screen.AdoptionConfirmation.route) {
             AdoptionConfirmationScreen(modifier)
@@ -50,14 +66,20 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
 
 
 
-        composable(Screen.Register.route) {
-            RegisterScreen(modifier)
+        composable(route = Screen.Register.route) {
+            val authViewModel: AuthViewModel = hiltViewModel()
+            RegisterScreen(modifier = modifier, navController, authViewModel)
         }
 
-        composable(Screen.Login.route) {
-            LoginScreen(modifier)
+        composable(route = Screen.Login.route) {
+            val authViewModel: AuthViewModel = hiltViewModel()
+            LoginScreen(modifier, navController, authViewModel)
         }
 
+        composable(route = Screen.ForgotPassword.route) {
+            val authViewModel: AuthViewModel = hiltViewModel()
+            ForgotPassword(modifier, navController, authViewModel)
+        }
 
 
 

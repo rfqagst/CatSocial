@@ -21,4 +21,13 @@ sealed class Screen(val route : String) {
 
     data object Reminder : Screen("reminderScreen")
 
+    data object Home : Screen("home")
+
+    data object ForgotPassword : Screen("forgot_password")
+
+    data object Profile : Screen("profile")
+
+    data object EditProfile : Screen("editprofile")
+    data object EditPassword : Screen("editpassword")
+
 }
