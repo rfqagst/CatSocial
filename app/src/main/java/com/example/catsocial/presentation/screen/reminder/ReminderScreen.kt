@@ -23,15 +23,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.catsocial.data.room.entity.Reminder
 import com.example.catsocial.presentation.components.ReminderCard
+import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.ui.theme.OrangePrimary
 import com.example.catsocial.util.Resource
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 @Composable
-fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel) {
+fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel, navController: NavHostController) {
     val remainingTimeMap by viewModel.remainingTimeMap.collectAsState()
 
     val remindersState by viewModel.allReminders.collectAsState()
@@ -65,6 +67,7 @@ fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel) {
 
         Button(onClick = {
             val newReminderTime = System.currentTimeMillis() + 3000
+            navController.navigate(Screen.AddReminder.route)
             viewModel.insertReminder(
                 Reminder(
                     id = 21,
@@ -132,6 +135,7 @@ fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel) {
         }
 
     }
+
 }
 
 @Composable

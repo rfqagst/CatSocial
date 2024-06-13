@@ -76,6 +76,9 @@ fun CatSocialApp(
                     title = "Edit Profile",
                     navController = navController
                 )
+                Screen.AddReminder.route -> TopBarComponent(
+                    title = "Reminder Makan",
+                    navController = navController)
             }
         },
         bottomBar = {
@@ -103,6 +106,10 @@ fun CatSocialApp(
                 Screen.AdoptionDetail.route + "/{adoptionId}" -> BottomBarComponentAdoptionDetail(
                     navController = navController,
                 )
+
+                Screen.AddReminder.route -> BottomBarComponentAdoption(
+                    navController = navController ,
+                    items = bottomNavItem)
             }
         },
         floatingActionButton = {
