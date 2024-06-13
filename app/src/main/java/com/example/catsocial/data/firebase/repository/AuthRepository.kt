@@ -17,7 +17,12 @@ class AuthRepository(
 
         return try {
             val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            val user = authResult.user
+
+
+
             Resource.Success(authResult.user!!)
+
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("AuthRepositoryLogin", "$email,login: ${e.message}")

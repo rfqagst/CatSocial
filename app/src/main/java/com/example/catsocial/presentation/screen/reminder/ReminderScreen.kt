@@ -67,7 +67,7 @@ fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel) {
             val newReminderTime = System.currentTimeMillis() + 3000
             viewModel.insertReminder(
                 Reminder(
-                    id = 20,
+                    id = 21,
                     name = "Makan Pagi",
                     time = newReminderTime
                 )

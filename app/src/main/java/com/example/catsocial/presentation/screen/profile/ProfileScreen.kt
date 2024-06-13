@@ -47,8 +47,6 @@ import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.presentation.screen.auth.AuthViewModel
 import com.example.catsocial.ui.theme.BlackPrimary
 import com.example.catsocial.ui.theme.GreyPrimary
-import com.example.catsocial.ui.theme.PrimaryLight
-import com.example.catsocial.ui.theme.YellowBanner
 
 @Composable
 fun ProfileScreen(modifier: Modifier, authViewModel: AuthViewModel, navController: NavController) {
@@ -98,10 +96,13 @@ fun ProfileScreen(modifier: Modifier, authViewModel: AuthViewModel, navControlle
                 )
             )
         }
+
+        Spacer(modifier = Modifier.height(18.dp))
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 100.dp),
+                .padding(top = 150.dp),
             contentAlignment = Alignment.Center
         ) {
             Box(
