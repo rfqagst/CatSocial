@@ -1,6 +1,10 @@
 package com.example.catsocial.presentation.screen.adoption
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,12 +48,15 @@ import com.example.catsocial.ui.theme.GreyPrimary
 import com.example.catsocial.util.Resource
 import com.example.catsocial.util.byteArrayToImageBitmap
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun AdoptionDetailScreen(
+fun SharedTransitionScope.AdoptionDetailScreen(
     modifier: Modifier,
     viewModel: AdoptionViewModel,
     adoptionId: String,
     navController: NavHostController,
+    animatedVisibilityScope: AnimatedVisibilityScope
+
 ) {
 
     val adoptionDetail by viewModel.adoptionDetail.collectAsState()
@@ -117,7 +124,15 @@ fun AdoptionDetailScreen(
                                     contentDescription = it.description,
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier
+                                        .sharedBounds(
+                                            sharedContentState = rememberSharedContentState(key = "image/{${it.id}}"),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                            boundsTransform = { _, _ ->
+                                                tween(durationMillis = 1000)
+                                            }
+                                        )
                                         .fillMaxSize()
+
                                 )
                             }
                             Spacer(modifier = Modifier.height(22.dp))
@@ -126,15 +141,38 @@ fun AdoptionDetailScreen(
                                 horizontalArrangement = Arrangement.SpaceAround
                             )
                             {
-                                CategoryChip(modifier = Modifier.width(80.dp).height(40.dp), text = it.gender)
-                                CategoryChip(modifier = Modifier.width(80.dp).height(40.dp), text = it.age)
-                                CategoryChip(modifier = Modifier.width(80.dp).height(40.dp), text = it.weight)
+                                CategoryChip(
+                                    modifier = Modifier
+                                        .width(80.dp)
+                                        .height(40.dp),
+                                    text = it.gender
+                                )
+                                CategoryChip(
+                                    modifier = Modifier
+                                        .width(80.dp)
+                                        .height(40.dp),
+                                    text = it.age
+                                )
+                                CategoryChip(
+                                    modifier = Modifier
+                                        .width(80.dp)
+                                        .height(40.dp),
+                                    text = it.weight
+                                )
                             }
                             Text(
                                 text = it.name,
                                 fontSize = 32.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                modifier = Modifier.padding(top = 25.dp)
+                                modifier = Modifier
+                                    .sharedElement(
+                                        state = rememberSharedContentState(key = "text/{${it.id}}"),
+                                        animatedVisibilityScope = animatedVisibilityScope,
+                                        boundsTransform = { _, _ ->
+                                            tween(durationMillis = 500)
+                                        })
+                                    .padding(top = 25.dp)
+
                             )
                             Text(
                                 text = it.race,

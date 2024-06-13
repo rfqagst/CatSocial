@@ -55,6 +55,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.compose.animation)
 
     //accompanist
     implementation (libs.accompanist.permissions)

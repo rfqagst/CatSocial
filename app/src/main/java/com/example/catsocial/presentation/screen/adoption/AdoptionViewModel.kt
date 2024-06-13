@@ -8,6 +8,7 @@ import com.example.catsocial.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +28,11 @@ class AdoptionViewModel @Inject constructor(
 
     private val _insertAdoptionState = MutableStateFlow<Resource<Unit>>(Resource.Idle())
     val insertAdoptionState: StateFlow<Resource<Unit>> = _insertAdoptionState
+
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
 
     init {
         fetchAllAdoptions()

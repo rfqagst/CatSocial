@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,7 +42,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -51,7 +52,6 @@ import com.example.catsocial.presentation.components.PasswordtTextField
 import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.presentation.screen.auth.AuthViewModel
 import com.example.catsocial.ui.theme.BlackPrimary
-import com.example.catsocial.ui.theme.GreyPrimary
 import com.example.catsocial.ui.theme.Neutral60
 import com.example.catsocial.ui.theme.OrangePrimary
 import com.example.catsocial.ui.theme.PrimaryLight
@@ -69,7 +69,7 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val loginFlow = authViewModel.loginFlow.collectAsState()
+    val loginFlow by authViewModel.loginFlow.collectAsState()
     var showErrorDialog by remember { mutableStateOf(false) }
 
     if (showErrorDialog) {
@@ -94,6 +94,10 @@ fun LoginScreen(
             }
         }
     }
+
+
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -266,30 +270,43 @@ fun LoginScreen(
         }
     }
 
-    loginFlow.value.let {
-        when(it) {
-            is Resource.Error -> {
-                showErrorDialog= true
-                authViewModel.clearLoginFlow()
 
-            }
-            is Resource.Loading -> {
-                CircularProgressIndicator()
-            }
-            is Resource.Success -> {
-                LaunchedEffect(Unit) {
-                    navController.navigate(Screen.Adoption.route) {
-                        popUpTo(Screen.Adoption.route) {
-                            inclusive = true
-                        }
+    when (loginFlow) {
+        is Resource.Error -> {
+            showErrorDialog = true
+            authViewModel.clearLoginFlow()
+        }
+
+        is Resource.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .padding(top = 36.dp)
+                        .size(48.dp)
+                )
+            }        }
+
+        is Resource.Success -> {
+            LaunchedEffect(Unit) {
+                navController.navigate(Screen.Adoption.route) {
+                    popUpTo(Screen.Adoption.route) {
+                        inclusive = true
                     }
                 }
             }
-            null -> { /* Do nothing */ }
-            is Resource.Idle -> {
-                // Do nothing
-            }
+        }
+
+        is Resource.Idle -> {
+            // Do nothing
+        }
+
+        null -> {
+            //
         }
     }
 }
+
 

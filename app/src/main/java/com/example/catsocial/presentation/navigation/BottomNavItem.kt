@@ -1,6 +1,7 @@
 package com.example.catsocial.presentation.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Timer
@@ -27,6 +28,11 @@ var bottomNavItem = listOf(
         title = "Reminder",
         icon = Icons.Default.Timer,
         route = "reminderScreen"
+    ),
+    BottomNavItem(
+        title = "Profile",
+        icon = Icons.Default.Person,
+        route = "profileScreen"
     )
 )
 

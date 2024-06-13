@@ -4,6 +4,10 @@ import android.Manifest
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,13 +44,14 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalSharedTransitionApi::class)
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-fun AdoptionScreen(
+fun SharedTransitionScope.AdoptionScreen(
     modifier: Modifier,
     navController: NavHostController,
-    viewModel: AdoptionViewModel
+    viewModel: AdoptionViewModel,
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
 
     var searchText by remember { mutableStateOf("") }
@@ -140,8 +145,20 @@ fun AdoptionScreen(
                                 gender = adoptions.gender,
                                 usia = adoptions.age,
                                 ras = adoptions.race,
-
-                                )
+                                imageModifier = Modifier.sharedBounds(
+                                    sharedContentState = rememberSharedContentState(key = "image/{${adoptions.id}}"),
+                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    boundsTransform = { _, _ ->
+                                        tween(durationMillis = 500)
+                                    }
+                                ),
+                                textModifier = Modifier.sharedElement(
+                                    state = rememberSharedContentState(key = "text/{${adoptions.id}}"),
+                                    animatedVisibilityScope = animatedVisibilityScope,
+                                    boundsTransform = { _, _ ->
+                                        tween(durationMillis = 500)
+                                    }
+                                ))
                         }
                     }
                 }

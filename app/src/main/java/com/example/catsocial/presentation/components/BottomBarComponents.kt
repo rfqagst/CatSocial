@@ -103,7 +103,7 @@ fun BottomBarComponentAdoptionDetail(
                 .fillMaxSize()
                 .background(OrangePrimary)
                 .clickable {
-                    navController.navigate(Screen.Adoption.route)
+                    navController.navigate(Screen.AdoptionConfirmation.route)
                 },
             contentAlignment = Alignment.Center
         ) {

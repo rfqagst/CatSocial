@@ -34,7 +34,7 @@ fun CatSocialApp(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
 
-    val currentUser = authViewModel.currentUser?.displayName ?: ""
+    val currentUser = authViewModel.currentUser?.displayName ?: "Refresh To Load"
 
     Scaffold(
         topBar = {
@@ -91,6 +91,11 @@ fun CatSocialApp(
                 )
 
                 Screen.Reminder.route -> BottomBarComponentAdoption(
+                    navController = navController,
+                    items = bottomNavItem
+                )
+
+                Screen.Profile.route -> BottomBarComponentAdoption(
                     navController = navController,
                     items = bottomNavItem
                 )

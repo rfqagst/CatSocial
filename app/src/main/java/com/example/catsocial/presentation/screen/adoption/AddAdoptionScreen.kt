@@ -1,5 +1,7 @@
 package com.example.catsocial.presentation.screen.adoption
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.util.Log
@@ -38,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import coil.compose.rememberAsyncImagePainter
 import com.example.catsocial.R
 import com.example.catsocial.data.room.entity.Cat
@@ -89,6 +92,23 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
     val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
 
     fun getCurrentLocation(onLocationReceived: (LatLng) -> Unit) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             location?.let {
                 val currentLatLng = LatLng(it.latitude, it.longitude)

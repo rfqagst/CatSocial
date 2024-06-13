@@ -83,7 +83,9 @@ fun AdoptionCard(
     ras: String,
     gender: String,
     usia: String,
-    modifier: Modifier
+    modifier: Modifier,
+    imageModifier : Modifier,
+    textModifier: Modifier
 ) {
     Column(
         modifier = modifier
@@ -96,14 +98,14 @@ fun AdoptionCard(
             bitmap = image,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier
+            modifier = imageModifier
                 .clip(RoundedCornerShape(10.dp))
                 .width(160.dp)
                 .height(130.dp)
                 .fillMaxWidth()
         )
         Column(modifier = Modifier.padding(top = 8.dp)) {
-            Text(text = name, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(text = name, fontWeight = FontWeight.SemiBold, fontSize = 16.sp, modifier = textModifier)
             Text(text = ras, fontWeight = FontWeight.Medium, fontSize = 16.sp)
             Row(modifier = Modifier.padding(top = 6.dp)) {
                 CategoryChip(modifier = Modifier, text = gender)
