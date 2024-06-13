@@ -79,7 +79,7 @@ private fun SplashScreen() {
                     .fillMaxSize()
                     .width(360.dp)
                     .height(800.dp)
-                    .background(color = Color(0xFFF4F4F4), shape = RoundedCornerShape(size = 28.dp))
+                    .background(color = Color(0xFFF4F4F4))
                     .align(Alignment.CenterHorizontally)
             ) {
                 Text(
@@ -91,7 +91,7 @@ private fun SplashScreen() {
                         color = Color(0xFF000000),
                     ),
                     modifier = Modifier
-                        .padding(start = 62.dp, end = 66.dp, top = 344.dp, bottom = 343.dp)
+                        .padding(start = 62.dp, end = 66.dp, top = 355.dp, bottom = 343.dp)
                         .width(232.dp)
                         .height(72.dp)
                         .align(Alignment.Center)
