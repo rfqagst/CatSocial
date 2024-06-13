@@ -128,7 +128,6 @@ fun SharedTransitionScope.AdoptionDetailScreen(
                                             sharedContentState = rememberSharedContentState(key = "image/{${it.id}}"),
                                             animatedVisibilityScope = animatedVisibilityScope,
                                             boundsTransform = { _, _ ->
-
                                                 tween(durationMillis = 1000)
                                             }
                                         )

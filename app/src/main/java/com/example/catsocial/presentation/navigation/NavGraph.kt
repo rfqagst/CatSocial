@@ -66,7 +66,7 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             }
 
             composable(Screen.AdoptionConfirmation.route) {
-                AdoptionConfirmationScreen(modifier)
+                AdoptionConfirmationScreen(modifier, navController)
             }
 
             composable(route = Screen.Register.route) {
