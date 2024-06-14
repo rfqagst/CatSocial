@@ -100,13 +100,6 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
@@ -122,7 +115,7 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
             .background(GreyPrimary)
             .padding(16.dp)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()), // Tambahkan ini untuk scrolling
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
@@ -314,7 +307,7 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
                     fontSize = 16.sp,
                     modifier = Modifier.padding(vertical = 32.dp),
                     color = Color.Green,
-                    text = "Berhasil Menambahkan Koleksi Tanaman"
+                    text = "Berhasil Mengadopsikan Anabul"
                 )
             }
 

@@ -2,6 +2,7 @@
 accompanistPermissions = "0.34.0"
 agp = "8.3.2"
 coilCompose = "2.6.0"
+core = "1.3.0"
 converterGson = "2.9.0"
 firebaseBom = "33.0.0"
 googlePlayServicesLocation = "20.0.0"
@@ -35,6 +36,7 @@ composeAnimation = "1.7.0-alpha07"
 
 [libraries]
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "composeAnimation" }
+clock = { module = "com.maxkeppeler.sheets-compose-dialogs:clock", version.ref = "core" }
 
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

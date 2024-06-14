@@ -30,7 +30,7 @@ class ReminderViewModel @Inject constructor(
     private val _allReminders = MutableStateFlow<Resource<List<Reminder>>>(Resource.Loading())
     val allReminders: StateFlow<Resource<List<Reminder>>> = _allReminders
 
-    private val _insertReminders = MutableStateFlow<Resource<Unit>>(Resource.Loading())
+    private val _insertReminders = MutableStateFlow<Resource<Unit>>(Resource.Idle())
     val insertReminders: StateFlow<Resource<Unit>> = _insertReminders
 
     private val _updateReminders = MutableStateFlow<Resource<Unit>>(Resource.Loading())
@@ -82,14 +82,6 @@ class ReminderViewModel @Inject constructor(
     }
 
 
-//
-//    fun requestExactAlarmPermission() {
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
-//            val intent = Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-//            context.startActivity(intent)
-//        }
-//    }
-
 
     fun startCountdown(reminderId: Int, millisInFuture: Long, reminderName : String) {
         if (millisInFuture > 0) {
@@ -118,27 +110,6 @@ class ReminderViewModel @Inject constructor(
 
 
 
-//    private fun setAlarm(reminderId : Int, millisInFuture: Long, reminderName : String) {
-//        if (canScheduleExactAlarms()) {
-//            val intent = Intent(context, AlarmReceiver::class.java).apply {
-//                putExtra("reminderName", reminderName)
-//            }
-//            val pendingIntent = PendingIntent.getBroadcast(
-//                context,
-//                reminderId,
-//                intent,
-//                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//            )
-//
-//            alarmManager.setExact(
-//                AlarmManager.RTC_WAKEUP,
-//                millisInFuture,
-//                pendingIntent
-//            )
-//        } else {
-//            requestExactAlarmPermission()
-//        }
-//    }
 
     fun canScheduleExactAlarms(): Boolean {
         return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {

@@ -77,7 +77,7 @@ fun CatSocialApp(
                     navController = navController
                 )
                 Screen.AddReminder.route -> TopBarComponent(
-                    title = "Reminder Makan",
+                    title = "Tambah Reminder Makan",
                     navController = navController)
             }
         },
@@ -107,15 +107,12 @@ fun CatSocialApp(
                     navController = navController,
                 )
 
-                Screen.AddReminder.route -> BottomBarComponentAdoption(
-                    navController = navController ,
-                    items = bottomNavItem)
             }
         },
         floatingActionButton = {
             when (currentDestination) {
                 Screen.Reminder.route -> FloatingActionButton(
-                    onClick = { navController.navigate(Screen.AdoptionAdd.route) },
+                    onClick = { navController.navigate(Screen.AddReminder.route) },
                     containerColor = OrangePrimary
                 ) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "Add", tint = Color.White)
