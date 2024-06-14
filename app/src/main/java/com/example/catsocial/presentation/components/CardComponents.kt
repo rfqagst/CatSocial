@@ -3,6 +3,7 @@ package com.example.catsocial.presentation.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,9 +27,11 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -38,16 +41,43 @@ import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.ui.theme.BlackPrimary
 import com.example.catsocial.ui.theme.OrangePrimary
 import com.example.catsocial.ui.theme.YellowBanner
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.runtime.*
+import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun BannerCard(modifier: Modifier, navController: NavHostController) {
+    var isHovered by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(if (isHovered) 1.05f else 1f)
 
     Row(
         modifier
             .fillMaxWidth()
             .height(150.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(YellowBanner),
+            .background(YellowBanner)
+            .pointerInput(Unit) {
+                coroutineScope {
+                    launch {
+                        awaitPointerEventScope {
+                            while (true) {
+                                val event = awaitPointerEvent()
+                                isHovered = event.changes.any { it.pressed }
+                            }
+                        }
+                    }
+                }
+            }
+            .graphicsLayer(scaleX = scale, scaleY = scale),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -257,18 +287,6 @@ fun ReminderCard(
     Spacer(modifier = Modifier.height(16.dp))
 
 }
-
-//
-//    @Composable
-//    @Preview(showBackground = true, showSystemUi = true)
-//    fun Preview() {
-//        ReminderCard(
-//            modifier = Modifier.padding(16.dp),
-//            reminderName = "Makan Pagi",
-//            reminderTime = "1 Jam 24 Menit"
-//        )
-//
-//    }
 
 
 
