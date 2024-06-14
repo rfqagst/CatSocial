@@ -55,6 +55,10 @@ android {
 
 dependencies {
 
+
+    implementation (libs.clock)
+
+
     implementation(libs.androidx.compose.animation)
 
     //accompanist

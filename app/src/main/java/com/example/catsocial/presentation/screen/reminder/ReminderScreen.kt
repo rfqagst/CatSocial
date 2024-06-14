@@ -1,5 +1,6 @@
 package com.example.catsocial.presentation.screen.reminder
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -65,20 +66,6 @@ fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel, navControll
         Text(text = "Reminder Aktif", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            val newReminderTime = System.currentTimeMillis() + 3000
-            navController.navigate(Screen.AddReminder.route)
-            viewModel.insertReminder(
-                Reminder(
-                    id = 21,
-                    name = "Makan Pagi",
-                    time = newReminderTime
-                )
-            )
-        }) {
-            Text(text = "Tambah Reminder")
-        }
-
         when (remindersState) {
 
             is Resource.Error -> {
@@ -128,16 +115,15 @@ fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel, navControll
 
             }
         }
-
         Row {
             Text(text = "Disclamer : Reminder mungkin delay beberapa detik.", color = Color.Gray)
-
         }
 
     }
 
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun formatDuration(millis: Long): String {
     val duration = millis.toDuration(DurationUnit.MILLISECONDS)

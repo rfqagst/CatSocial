@@ -42,9 +42,6 @@ fun NormalTextField(
     onValueChange: (String) -> Unit,
 ) {
     Column(modifier = modifier) {
-        var normalText by rememberSaveable {
-            mutableStateOf("")
-        }
         Text(
             text = titleTextField,
             style = TextStyle(

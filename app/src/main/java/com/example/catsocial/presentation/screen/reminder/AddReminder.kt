@@ -2,11 +2,6 @@ package com.example.catsocial.presentation.screen.reminder
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.waitForUpOrCancellation
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,10 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.catsocial.presentation.components.DropdownFieldWithTitle
@@ -89,7 +81,7 @@ fun AddReminder(
             onValueChange = { waktuReminder = it })
         
         Spacer(modifier = Modifier.height(16.dp))
-        LargeBtn(text = "Tambah", onClick = { /*TODO*/ }, modifier = Modifier.bounceClick())
+        LargeBtn(text = "Tambah", onClick = { /*TODO*/ }, modifier = Modifier)
     }
     Column(
         modifier
@@ -109,32 +101,8 @@ fun AddReminder(
 
     }
 
-}
 
-private enum class PulsateButtonState { Pressed, Idle }
-fun Modifier.bounceClick() = composed {
-    var buttonState by remember { mutableStateOf(PulsateButtonState.Idle) }
-    val scale by animateFloatAsState(if (buttonState == PulsateButtonState.Pressed) 0.90f else 1f)
 
-    this
-        .graphicsLayer {
-            scaleX = scale
-            scaleY = scale
-        }
-        .clickable(
-            interactionSource = remember { MutableInteractionSource() },
-            indication = null,
-            onClick = {  }
-        )
-        .pointerInput(buttonState) {
-            awaitPointerEventScope {
-                buttonState = if (buttonState == PulsateButtonState.Pressed) {
-                    waitForUpOrCancellation()
-                    PulsateButtonState.Idle
-                } else {
-                    awaitFirstDown(false)
-                    PulsateButtonState.Pressed
-                }
-            }
-        }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.catsocial.presentation.screen.catlist
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.catsocial.data.retrofit.model.CatWithImage
@@ -34,10 +35,11 @@ class CatListViewModel @Inject constructor(
         fetchCat()
     }
 
-    private fun fetchCat() {
+     fun fetchCat() {
         viewModelScope.launch {
             repository.fetchCat().collect {
                 _cats.value = it
+                Log.d("CatListViewModel", "Fetched Cats: $it")
             }
         }
     }
@@ -54,9 +56,11 @@ class CatListViewModel @Inject constructor(
         viewModelScope.launch {
             repository.fetchCatById(catId).collect {
                 _catDetail.value = it
+                Log.d("CatDetail", "fetchCatById: $it")
             }
         }
     }
+
 
 
 }
