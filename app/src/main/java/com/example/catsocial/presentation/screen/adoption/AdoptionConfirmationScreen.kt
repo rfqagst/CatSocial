@@ -70,7 +70,7 @@ fun AdoptionConfirmationScreen(modifier: Modifier, navController: NavHostControl
 
 
         SmallBtn(
-            text = "Home",
+            text = "Kembali",
             onClick = { navController.navigate(Screen.Adoption.route) },
             modifier = Modifier
         )
