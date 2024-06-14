@@ -3,6 +3,10 @@ package com.example.catsocial.presentation.screen.profile
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,8 +37,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -47,7 +54,6 @@ import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.presentation.screen.auth.AuthViewModel
 import com.example.catsocial.ui.theme.BlackPrimary
 import com.example.catsocial.ui.theme.GreyPrimary
-
 @Composable
 fun ProfileScreen(modifier: Modifier, authViewModel: AuthViewModel, navController: NavController) {
     var expandedState by remember { mutableStateOf(false) }
@@ -119,6 +125,7 @@ fun ProfileScreen(modifier: Modifier, authViewModel: AuthViewModel, navControlle
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(51.dp)
+                            .pressClickEffect()
                             .background(
                                 color = Color(0xFFFFFFFF),
                                 shape = RoundedCornerShape(size = 8.dp)
@@ -157,6 +164,7 @@ fun ProfileScreen(modifier: Modifier, authViewModel: AuthViewModel, navControlle
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(51.dp)
+                            .pressClickEffect()
                             .background(
                                 color = Color(0xFFFFFFFF),
                                 shape = RoundedCornerShape(size = 8.dp)
@@ -196,6 +204,7 @@ fun ProfileScreen(modifier: Modifier, authViewModel: AuthViewModel, navControlle
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(51.dp)
+                            .pressClickEffect()
                             .background(
                                 color = Color(0xFFFFFFFF),
                                 shape = RoundedCornerShape(size = 8.dp)
@@ -232,6 +241,7 @@ fun ProfileScreen(modifier: Modifier, authViewModel: AuthViewModel, navControlle
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(51.dp)
+                            .pressClickEffect()
                             .background(
                                 color = Color(0xFFFFFFFF),
                                 shape = RoundedCornerShape(size = 8.dp)
@@ -295,6 +305,31 @@ fun ProfileScreen(modifier: Modifier, authViewModel: AuthViewModel, navControlle
 
         }
     }
+}
 
+enum class ButtonState { Pressed, Idle }
+fun Modifier.pressClickEffect() = composed {
+    var buttonState by remember { mutableStateOf(ButtonState.Idle) }
+    val ty by animateFloatAsState(if (buttonState == ButtonState.Pressed) 0f else -20f)
 
+    this
+        .graphicsLayer {
+            translationY = ty
+        }
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = { }
+        )
+        .pointerInput(buttonState) {
+            awaitPointerEventScope {
+                buttonState = if (buttonState == ButtonState.Pressed) {
+                    waitForUpOrCancellation()
+                    ButtonState.Idle
+                } else {
+                    awaitFirstDown(false)
+                    ButtonState.Pressed
+                }
+            }
+        }
 }

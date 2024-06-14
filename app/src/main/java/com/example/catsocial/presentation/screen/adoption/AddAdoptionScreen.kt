@@ -7,8 +7,13 @@ import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,8 +38,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -283,7 +291,7 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
                     }
                 }
             },
-            modifier = Modifier
+            modifier = Modifier.bounceClick()
         )
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -323,4 +331,31 @@ fun AddAdoptionScreen(modifier: Modifier, viewModel: AdoptionViewModel) {
             }
         }
     }
+}
+private enum class PulsateButtonState { Pressed, Idle }
+fun Modifier.bounceClick() = composed {
+    var buttonState by remember { mutableStateOf(PulsateButtonState.Idle) }
+    val scale by animateFloatAsState(if (buttonState == PulsateButtonState.Pressed) 0.90f else 1f)
+
+    this
+        .graphicsLayer {
+            scaleX = scale
+            scaleY = scale
+        }
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = {  }
+        )
+        .pointerInput(buttonState) {
+            awaitPointerEventScope {
+                buttonState = if (buttonState == PulsateButtonState.Pressed) {
+                    waitForUpOrCancellation()
+                    PulsateButtonState.Idle
+                } else {
+                    awaitFirstDown(false)
+                    PulsateButtonState.Pressed
+                }
+            }
+        }
 }

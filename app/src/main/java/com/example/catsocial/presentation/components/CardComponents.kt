@@ -39,16 +39,43 @@ import com.example.catsocial.presentation.navigation.Screen
 import com.example.catsocial.ui.theme.BlackPrimary
 import com.example.catsocial.ui.theme.OrangePrimary
 import com.example.catsocial.ui.theme.YellowBanner
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.runtime.*
+import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun BannerCard(modifier: Modifier, navController: NavHostController) {
+    var isHovered by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(if (isHovered) 1.05f else 1f)
 
     Row(
         modifier
             .fillMaxWidth()
             .height(150.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(YellowBanner),
+            .background(YellowBanner)
+            .pointerInput(Unit) {
+                coroutineScope {
+                    launch {
+                        awaitPointerEventScope {
+                            while (true) {
+                                val event = awaitPointerEvent()
+                                isHovered = event.changes.any { it.pressed }
+                            }
+                        }
+                    }
+                }
+            }
+            .graphicsLayer(scaleX = scale, scaleY = scale),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -75,6 +102,7 @@ fun BannerCard(modifier: Modifier, navController: NavHostController) {
         )
     }
 }
+
 
 @Composable
 fun AdoptionCard(
@@ -240,9 +268,7 @@ fun ReminderCard(modifier: Modifier, reminderName: String, reminderTime: String)
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
-
 }
-
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)

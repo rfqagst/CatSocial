@@ -37,7 +37,7 @@ fun EditPasswordScreen (modifier: Modifier){
         Spacer(modifier = Modifier.height(60.dp))
         LargeBtn(text = "Ubah",
             onClick = { /*TODO*/ },
-            modifier = Modifier
+            modifier = Modifier.bounceClick()
         )
 
     }
