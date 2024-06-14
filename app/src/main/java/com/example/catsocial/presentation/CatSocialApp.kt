@@ -64,10 +64,6 @@ fun CatSocialApp(
                     navController = navController
                 )
 
-                Screen.Profile.route -> TopBarComponent(
-                    title = "Profil",
-                    navController = navController
-                )
                 Screen.EditPassword.route -> TopBarComponent(
                     title = "Edit Password",
                     navController = navController
