@@ -43,7 +43,7 @@ fun EditProfileScreen (modifier: Modifier){
         Spacer(modifier = Modifier.height(60.dp))
         LargeBtn(text = "Simpan",
             onClick = { /*TODO*/ },
-            modifier = Modifier.bounceClick()
+            modifier = Modifier
         )
     }
 }

@@ -29,6 +29,7 @@ import com.example.catsocial.presentation.components.DateTimeField
 import com.example.catsocial.presentation.components.DropdownFieldWithTitle
 import com.example.catsocial.presentation.components.LargeBtn
 import com.example.catsocial.presentation.components.NormalTextField
+import com.example.catsocial.presentation.screen.profile.bounceClick
 import com.example.catsocial.util.Resource
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.clock.ClockDialog
@@ -132,7 +133,7 @@ fun AddReminder(
                     time = waktuReminderInMillis
                 )
             )
-        }, modifier = Modifier)
+        }, modifier = Modifier.bounceClick())
 
         when (insertState) {
             is Resource.Error -> {
@@ -170,4 +171,6 @@ fun AddReminder(
         }
 
     }
+
+
 }
