@@ -83,6 +83,12 @@ fun CatSocialApp(
                 Screen.EditReminder.route + "/{reminderId}" -> TopBarComponent(
                     title = "Edit Reminder Makan",
                     navController = navController)
+
+
+                Screen.Map.route + "/{catId}" -> TopBarComponent(
+                    title = "Lokasi Anabul",
+                    navController = navController
+                )
             }
         },
         bottomBar = {

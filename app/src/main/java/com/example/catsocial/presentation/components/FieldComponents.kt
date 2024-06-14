@@ -31,7 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.catsocial.ui.theme.OrangePrimary
-import com.example.catsocial.ui.theme.PrimaryLight
 
 
 @Composable
@@ -96,7 +95,7 @@ fun NormalTextField(
             placeholder = {
                 Text(
                     text = placeholderText,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally),
                     color = Color.Gray
@@ -143,7 +142,7 @@ fun NormalTextFieldTrailingText(
             placeholder = {
                 Text(
                     text = placeholderText,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     modifier = Modifier
                         .fillMaxSize()
                         .align(Alignment.CenterHorizontally),
@@ -327,11 +326,12 @@ fun DropdownField(
 @Composable
 fun DateTimeField(
     modifier: Modifier,
+    placeholderText: String,
     titleTextField: String,
     value: String,
     onValueChange: (String) -> Unit,
     onClickIcon: () -> Unit,
-    icon : ImageVector
+    icon: ImageVector
 ) {
     Column(modifier = modifier) {
         Text(
@@ -351,6 +351,15 @@ fun DateTimeField(
                 .background(Color.White),
             value = value,
             onValueChange = onValueChange,
+            placeholder = {
+                Text(
+                    text = placeholderText,
+                    fontSize = 14.sp,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    color = Color.Gray
+                )
+            },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = OrangePrimary,
                 unfocusedBorderColor = Color.Transparent,
