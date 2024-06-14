@@ -2,6 +2,9 @@
 
 Welcome to the CatSocial GitHub repository! This Android application is designed to facilitate pet adoption with features including user authentication, an adoption dashboard, reminders, and detailed information about cats.
 
+App Displays :
+https://drive.google.com/drive/folders/1qPX--huXYMfcml6Y8jPbAoc7wbRKyyFu?usp=sharing
+
 ## Features
 
 - **Auth:** Secure user authentication via Firebase Auth.
