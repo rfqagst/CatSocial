@@ -30,7 +30,7 @@ Welcome to the CatSocial GitHub repository! This Android application is designed
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/catSocial.git
+   git clone https://github.com/yourusername/CatSocial.git
    ```
 2. **Open the project in Android Studio.**
 3. **Sync the project with Gradle files.**
