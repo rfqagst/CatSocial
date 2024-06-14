@@ -25,5 +25,9 @@ interface ReminderDao {
     @Update
     suspend fun updateReminder(reminder: Reminder)
 
+    @Query("SELECT * FROM reminders WHERE id = :id")
+    suspend fun getReminderById(id: Int): Reminder?
+
+
 
 }

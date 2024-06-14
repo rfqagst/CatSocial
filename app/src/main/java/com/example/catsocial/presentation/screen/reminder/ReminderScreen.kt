@@ -103,7 +103,10 @@ fun ReminderScreen(modifier: Modifier, viewModel: ReminderViewModel, navControll
                             ReminderCard(
                                 modifier = Modifier,
                                 reminderName = reminder.name,
-                                reminderTime = reminderTime
+                                reminderTime = reminderTime,
+                                editOnclick = {
+                                    navController.navigate(Screen.EditReminder.route + "/${reminder.id}")
+                                }
                             )
                         }
 

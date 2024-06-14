@@ -30,13 +30,16 @@ class ReminderViewModel @Inject constructor(
     private val _allReminders = MutableStateFlow<Resource<List<Reminder>>>(Resource.Loading())
     val allReminders: StateFlow<Resource<List<Reminder>>> = _allReminders
 
+    private val _reminderById = MutableStateFlow<Resource<Reminder>>(Resource.Loading())
+    val reminderById: StateFlow<Resource<Reminder>> = _reminderById
+
     private val _insertReminders = MutableStateFlow<Resource<Unit>>(Resource.Idle())
     val insertReminders: StateFlow<Resource<Unit>> = _insertReminders
 
-    private val _updateReminders = MutableStateFlow<Resource<Unit>>(Resource.Loading())
+    private val _updateReminders = MutableStateFlow<Resource<Unit>>(Resource.Idle())
     val updateReminders: StateFlow<Resource<Unit>> = _updateReminders
 
-    private val _deleteReminders = MutableStateFlow<Resource<Unit>>(Resource.Loading())
+    private val _deleteReminders = MutableStateFlow<Resource<Unit>>(Resource.Idle())
     val deleteReminders: StateFlow<Resource<Unit>> = _deleteReminders
 
 
@@ -53,6 +56,14 @@ class ReminderViewModel @Inject constructor(
         viewModelScope.launch {
             reminderRepository.getReminders().collect { resource ->
                 _allReminders.value = resource
+            }
+        }
+    }
+
+    fun getRemindersById(reminderId: Int) {
+        viewModelScope.launch {
+            reminderRepository.getRemindersById(reminderId).collect { resource ->
+                _reminderById.value = resource
             }
         }
     }

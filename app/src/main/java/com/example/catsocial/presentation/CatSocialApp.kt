@@ -79,6 +79,10 @@ fun CatSocialApp(
                 Screen.AddReminder.route -> TopBarComponent(
                     title = "Tambah Reminder Makan",
                     navController = navController)
+
+                Screen.EditReminder.route + "/{reminderId}" -> TopBarComponent(
+                    title = "Edit Reminder Makan",
+                    navController = navController)
             }
         },
         bottomBar = {

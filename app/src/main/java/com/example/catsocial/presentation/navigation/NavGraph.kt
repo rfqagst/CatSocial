@@ -28,6 +28,7 @@ import com.example.catsocial.presentation.screen.profile.EditPasswordScreen
 import com.example.catsocial.presentation.screen.profile.EditProfileScreen
 import com.example.catsocial.presentation.screen.profile.ProfileScreen
 import com.example.catsocial.presentation.screen.reminder.AddReminder
+import com.example.catsocial.presentation.screen.reminder.EditReminderScreen
 import com.example.catsocial.presentation.screen.reminder.ReminderScreen
 import com.example.catsocial.presentation.screen.reminder.ReminderViewModel
 
@@ -111,6 +112,14 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
                 val reminderViewModel: ReminderViewModel = hiltViewModel()
 
                 AddReminder(modifier, reminderViewModel, navController)
+            }
+
+            composable(Screen.EditReminder.route + "/{reminderId}") {
+                val reminderId = it.arguments?.getString("reminderId") ?: ""
+
+                val reminderViewModel: ReminderViewModel = hiltViewModel()
+
+                EditReminderScreen(modifier, reminderViewModel, navController,reminderId)
             }
 
 

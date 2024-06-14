@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.catsocial.ui.theme.GreyPrimary
 import com.example.catsocial.ui.theme.OrangePrimary
 
 @Composable
@@ -33,10 +32,10 @@ fun SmallBtn(
         ),
         modifier = Modifier
             .height(30.dp)
-            .wrapContentWidth()
-        ,
+            .wrapContentWidth(),
         shape = RoundedCornerShape(15.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp)    ) {
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp)
+    ) {
         Text(
             text = text,
             textAlign = TextAlign.Center,

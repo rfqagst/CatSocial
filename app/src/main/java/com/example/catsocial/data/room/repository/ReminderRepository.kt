@@ -1,8 +1,5 @@
 package com.example.catsocial.data.room.repository
 
-import android.app.AlarmManager
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.example.catsocial.data.room.dao.ReminderDao
 import com.example.catsocial.data.room.entity.Reminder
 import com.example.catsocial.util.Resource
@@ -13,7 +10,7 @@ import javax.inject.Inject
 class ReminderRepository @Inject constructor(
     private val reminderDao: ReminderDao,
 
-) {
+    ) {
 
     suspend fun insertReminder(reminder: Reminder): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading())
@@ -54,6 +51,21 @@ class ReminderRepository @Inject constructor(
             reminderDao.getAllReminders().collect { resource ->
                 emit(Resource.Success(resource))
             }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
+
+        }
+
+
+    }
+
+
+    suspend fun getRemindersById(reminderId: Int): Flow<Resource<Reminder>> = flow {
+        emit(Resource.Loading())
+        try {
+            val reminder = reminderDao.getReminderById(reminderId)
+            emit(Resource.Success(reminder!!))
+
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "An error occurred"))
 

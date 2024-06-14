@@ -2,6 +2,7 @@ package com.example.catsocial.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,11 +26,9 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -84,7 +83,7 @@ fun AdoptionCard(
     gender: String,
     usia: String,
     modifier: Modifier,
-    imageModifier : Modifier,
+    imageModifier: Modifier,
     textModifier: Modifier
 ) {
     Column(
@@ -105,7 +104,12 @@ fun AdoptionCard(
                 .fillMaxWidth()
         )
         Column(modifier = Modifier.padding(top = 8.dp)) {
-            Text(text = name, fontWeight = FontWeight.SemiBold, fontSize = 16.sp, modifier = textModifier)
+            Text(
+                text = name,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp,
+                modifier = textModifier
+            )
             Text(text = ras, fontWeight = FontWeight.Medium, fontSize = 16.sp)
             Row(modifier = Modifier.padding(top = 6.dp)) {
                 CategoryChip(modifier = Modifier, text = gender)
@@ -206,7 +210,12 @@ fun CatInformationCard(modifier: Modifier, name: String, description: String, im
 
 
 @Composable
-fun ReminderCard(modifier: Modifier, reminderName: String, reminderTime: String) {
+fun ReminderCard(
+    modifier: Modifier,
+    reminderName: String,
+    reminderTime: String,
+    editOnclick: () -> Unit
+) {
 
     Column(
         modifier
@@ -222,7 +231,13 @@ fun ReminderCard(modifier: Modifier, reminderName: String, reminderTime: String)
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = reminderName)
-            Text(text = "Edit", color = OrangePrimary, textDecoration = TextDecoration.Underline)
+            Text(
+                text = "Edit",
+                color = OrangePrimary,
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.clickable {
+                    editOnclick()
+                })
         }
         Column(
             modifier = Modifier
@@ -243,17 +258,17 @@ fun ReminderCard(modifier: Modifier, reminderName: String, reminderTime: String)
 
 }
 
-
-@Composable
-@Preview(showBackground = true, showSystemUi = true)
-fun Preview() {
-    ReminderCard(
-        modifier = Modifier.padding(16.dp),
-        reminderName = "Makan Pagi",
-        reminderTime = "1 Jam 24 Menit"
-    )
-
-}
+//
+//    @Composable
+//    @Preview(showBackground = true, showSystemUi = true)
+//    fun Preview() {
+//        ReminderCard(
+//            modifier = Modifier.padding(16.dp),
+//            reminderName = "Makan Pagi",
+//            reminderTime = "1 Jam 24 Menit"
+//        )
+//
+//    }
 
 
 

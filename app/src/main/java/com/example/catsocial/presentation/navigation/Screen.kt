@@ -21,6 +21,7 @@ sealed class Screen(val route : String) {
 
     data object Reminder : Screen("reminderScreen")
     data object AddReminder : Screen("addreminderScreen")
+    data object EditReminder : Screen("editreminderScreen")
 
     data object Home : Screen("home")
 
